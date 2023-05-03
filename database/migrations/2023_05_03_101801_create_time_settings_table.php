@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('time_settings', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->time('order_start_time');
             $table->time('order_end_time');
+            $table->timestamps();
         });
     }
 

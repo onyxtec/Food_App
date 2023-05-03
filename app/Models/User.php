@@ -23,6 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image',
+        'balance',
     ];
 
     /**
@@ -48,8 +50,8 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id', 'id');
     }
 
-    public function review(): HasOne
+    public function reviews(): HasMany
     {
-        return $this->hasOne(Review::class, 'user_id', 'id');
+        return $this->hasMany(Review::class, 'user_id', 'id');
     }
 }
