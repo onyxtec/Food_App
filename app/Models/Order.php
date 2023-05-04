@@ -12,20 +12,21 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Order extends Model
 {
     use HasFactory;
+
     protected $fillable = ['user_id', 'status'];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class);
     }
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'order_details');
     }
 
     public function review(): HasOne
     {
-        return $this->hasOne(Review::class, 'order_id', 'id');
+        return $this->hasOne(Review::class);
     }
 }

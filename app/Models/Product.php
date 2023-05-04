@@ -14,11 +14,11 @@ class Product extends Model
     protected $fillable = ['name', 'price', 'description'];
 
     public function images(): HasMany{
-        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+        return $this->hasMany(ProductImage::class);
     }
 
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class, 'order_details', 'order_id', 'product_id');
+        return $this->belongsToMany(Order::class, 'order_details');
     }
 }
