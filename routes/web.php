@@ -20,20 +20,3 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::group(['middleware' => ['role:Admin']], function () {
-    //
-});
-
-Route::group(['middleware' => ['role:Finance']], function () {
-    //
-});
-
-Route::group(['middleware' => ['role:Office Boy']], function () {
-    //
-});
-
-
-Route::group(['middleware' => ['role:Employee']], function () {
-    //
-});

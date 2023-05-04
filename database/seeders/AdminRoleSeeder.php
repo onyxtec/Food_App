@@ -17,13 +17,13 @@ class AdminRoleSeeder extends Seeder
 
         $admin = User::create([
             'name' => 'Admin',
-            'email' => 'admin@example.com',
+            'email' => 'admin@foody.com',
             'password' => bcrypt('password123'),
         ]);
 
         $finance = User::create([
             'name' => 'Finance',
-            'email' => 'finance@example.com',
+            'email' => 'finance@foody.com',
             'password' => bcrypt('password123'),
         ]);
 
