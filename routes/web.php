@@ -20,3 +20,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/view', [App\Http\Controllers\ProfileViewController::class, 'index'])->name('profile.view');
+    Route::post('/profile/image/update', [App\Http\Controllers\ProfileViewController::class, 'update'])->name('profile.image.update');
+    Route::get('/profile/image/remove', [App\Http\Controllers\ProfileViewController::class, 'remove'])->name('profile.image.remove');
+    Route::post('/user/name/update/{id}', [App\Http\Controllers\ProfileViewController::class, 'updateName'])->name('user.name.update');
+    Route::post('/update/password', [App\Http\Controllers\ProfileViewController::class, 'updatePassword'])->name('update.password');
+
+});
+
