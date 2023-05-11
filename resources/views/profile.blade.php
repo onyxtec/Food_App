@@ -2,10 +2,7 @@
 
 @section('content')
 <div class="container">
-
-    @include('success')
-
-    <div id="show-message" class="alert alert-success alert-dismissible fade show" role="alert"></div>
+    @include('response')
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -119,17 +116,10 @@
             contentType: false,
             processData: false,
             success: function(response) {
-                if(response.success){
-                    $('#profile-image-preview').attr('src', response.image);
-                    localStorage.setItem('message', response.message); // Store success message in cookie or local storage
-                    location.reload();
-                }else{
-                    $('#show-message').removeClass("alert alert-success").addClass("alert alert-danger");
-                    localStorage.setItem('message', response.message);
-                }
+                location.reload();
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                $('#show-message').removeClass("alert alert-success").addClass("alert alert-danger").html('An error occurred: ' + errorThrown).show();
+            error: function(xhr, textStatus, errorThrown) {
+                alert('Something went wrong. Please try again.');
             }
         });
     });
@@ -149,25 +139,15 @@
                     url: "{{ route('profile.image.remove') }}",
                     method: "GET",
                     success: function(response) {
-                        localStorage.setItem('message', response.message); // Store success message in cookie or local storage
                         location.reload();
                     },
                     error: function(xhr, status, error) {
-                        // console.log(xhr.responseText);
-                        $('#show-message').removeClass("alert alert-success").addClass("alert alert-danger").html('An error occurred: ' + xhr.responseText).show();
+                        alert('Something went wrong. Please try again.');
                     }
                 });
             }
         });
     }
-
-    $(document).ready(function() {
-        var message = localStorage.getItem('message'); // Retrieve success message from cookie or local storage
-        if (message !== null) {
-            $('#show-message').text(message).show();
-            localStorage.removeItem('message');// Remove success message from cookie or local storage after it has been displayed
-        }
-    });
 
     $(document).ready(function() {
         $('.eye-icon').on('click', function(e) {

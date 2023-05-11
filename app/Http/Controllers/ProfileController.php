@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
@@ -24,16 +25,25 @@ class ProfileController extends Controller
 
     public function updateProfileImage(Request $request)
     {
-        $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        if ($validator->fails()) {
+            foreach($validator->errors()->messages() as $image_errors){
+                return session()->flash('error', $image_errors[0]);
+            }
+        }
 
         $user = auth()->user();
 
         if($user->image !== null){
             $imagePath = $user->image;
-            if ($imagePath && Storage::exists($imagePath)) {
-                Storage::delete($imagePath);
+            $imagePath = explode('storage/', $imagePath);
+            $imagePath = $imagePath[1];
+
+            if ($imagePath && Storage::disk('local')->exists('public/' . $imagePath)) {
+                Storage::disk('local')->delete('public/' . $imagePath);
             }
         }
 
@@ -46,28 +56,33 @@ class ProfileController extends Controller
             $user->image = $url;
             $user->save();
 
-            return response()->json(['success' => true, 'message' => 'Profile image updated successfully']);
+            return $request->session()->flash('success', 'Profile image updated successfully.');
         }
 
-        return response()->json(['success' => false, 'message' => 'Image upload failed. Please try again']);
+        return $request->session()->flash('error', 'Something went wrong. Please try again.');
     }
 
     public function removeProfileImage(){
         $user = auth()->user();
-        $imagePath = $user->image;
+
+        if($user->image!== null){
+            $imagePath = $user->image;
+            $imagePath = explode('storage/', $imagePath);
+            $imagePath = $imagePath[1];
+
+            if ($imagePath && Storage::disk('local')->exists('public/' . $imagePath)) {
+                Storage::disk('local')->delete('public/' . $imagePath);
+            }
+        }
+
         $user->image = null;
         $user->save();
 
-        if ($imagePath && Storage::exists($imagePath)) {
-            Storage::delete($imagePath);
-        }
-
-        return response()->json(['success' => true, 'message' => 'Image Removed Successfully']);
+        return session()->flash('success', 'Image removed successfully');
     }
 
     public function updateName(Request $request){
         $request->validate([
-            // 'name' => 'required|string|max:255',
             'name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
         ]);
 
@@ -75,7 +90,7 @@ class ProfileController extends Controller
         $user->name = $request->input('name');
         $user->save();
 
-        return redirect()->back()->with('success', 'Name Updated Successfully');
+        return redirect()->back()->with('success', 'Name updated successfully');
     }
 
     public function updatePassword(Request $request){
