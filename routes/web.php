@@ -22,11 +22,13 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile/view', [App\Http\Controllers\ProfileViewController::class, 'index'])->name('profile.view');
-    Route::post('/profile/image/update', [App\Http\Controllers\ProfileViewController::class, 'update'])->name('profile.image.update');
-    Route::get('/profile/image/remove', [App\Http\Controllers\ProfileViewController::class, 'remove'])->name('profile.image.remove');
-    Route::post('/user/name/update/{id}', [App\Http\Controllers\ProfileViewController::class, 'updateName'])->name('user.name.update');
-    Route::post('/update/password', [App\Http\Controllers\ProfileViewController::class, 'updatePassword'])->name('update.password');
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/image/update', [App\Http\Controllers\ProfileController::class, 'updateProfileImage'])->name('profile.image.update');
+    Route::get('/profile/image/remove', [App\Http\Controllers\ProfileController::class, 'removeProfileImage'])->name('profile.image.remove');
+    Route::post('/profile/name/update', [App\Http\Controllers\ProfileController::class, 'updateName'])->name('profile.name.update');
+    Route::post('/profile/password/update', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
 });
+
+
 
