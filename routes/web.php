@@ -29,6 +29,3 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/password/update', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
 });
-
-
-
