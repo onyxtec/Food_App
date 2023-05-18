@@ -1,13 +1,13 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
+    @include('response')
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Product Listing') }}</div>
                 <div id="create-btn-on-listing" class="d-flex justify-content-end mt-3">
-                    <a class="btn btn-primary btn-lg" href="{{ route('product.create') }}" role="button">Create Products</a>
+                    <a class="btn btn-primary btn-lg" href="{{ route('products.create') }}" role="button">Create Product</a>
                 </div>
                 <div class="mx-3 my-3 table-responsive">
                     <table id="myTable" class="table table-striped table-hover">
@@ -36,21 +36,17 @@
                                 </td>
                                 <td>
                                     <div class="d-flex flex-row">
-                                        <form id="deleteForm{{ $product->id }}" action="{{ route('product.destroy', $product->id) }}" method="POST">
+                                        <form id="deleteForm{{ $product->id }}" action="{{ route('products.destroy', $product->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button id="delete-product-list-button" type="submit" onclick="deleteProduct({{ $product->id }})" class="btn btn-danger btn-lg">Delete</button>
                                         </form>
-                                        <a class="btn btn-primary btn-lg" href="{{ route('product.edit', $product->id) }}" role="button">Edit</a>
+                                        <a class="btn btn-primary btn-lg" href="{{ route('products.edit', $product->id) }}" role="button">Edit</a>
                                     </div>
                                 </td>
                             </tr>
                         @endforeach
-
                         </tbody>
-                        <tfoot>
-
-                        </tfoot>
                     </table>
                 </div>
                 </div>
@@ -61,7 +57,6 @@
 @endsection
 
 @section('scripts')
-
 <script>
     let table = new DataTable('#myTable');
     function deleteProduct(productId) {
@@ -81,6 +76,4 @@
         });
     }
 </script>
-
-
 @endsection
