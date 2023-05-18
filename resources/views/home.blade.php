@@ -13,7 +13,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
                     @role('Admin')
                         <a href="{{ route('products.index') }}" style="text-decoration: none;">
                             <div class=" border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded" style="width: 18rem;">
