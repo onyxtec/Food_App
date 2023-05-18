@@ -5,6 +5,51 @@
 
 }
 
-#update-profile-image-button{
+#update-profile-image-button, #delete-product-list-button {
     margin-right: 0.5rem;
 }
+
+#create-btn-on-listing{
+    margin-right: 1.5rem
+}
+
+
+
+.dz-remove {
+    color: #fff;
+    background-color: #f55353;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#image-preview{
+    height: 150px;
+    border: 2px solid gray;
+
+}
+
+.image_container {
+    height: 120px;
+    width: 200px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.image_container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.image_container span {
+    top: -6px;
+    color: red;
+    font-size: 28px;
+    font-weight: normal;
+    cursor: pointer;
+}
+

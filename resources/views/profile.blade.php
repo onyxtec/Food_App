@@ -70,7 +70,7 @@
                                             <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Old Password" required minlength="8">
                                             <span class="input-group-text eye-icon"><i class="fa fa-eye"></i></span>
                                         </div>
-                                        @error('password')
+                                        @error('old_password')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
