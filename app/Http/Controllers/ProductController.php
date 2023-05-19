@@ -55,7 +55,7 @@ class ProductController extends Controller
             $temporaryImage->delete();
         }
 
-        return redirect()->route('products.index')->with('success', 'Your product created successfully!.');
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
     public function create()
@@ -110,7 +110,7 @@ class ProductController extends Controller
                 $temporaryImage->delete();
             }
 
-            return redirect()->route('products.index')->with('success', 'Your product updated successfully.');
+            return redirect()->route('products.index')->with('success', 'Product updated successfully.');
         }
 
         return redirect()->route('products.index')->with('error', 'Product not found.');
