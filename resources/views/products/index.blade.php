@@ -10,11 +10,11 @@
                     <a class="btn btn-primary btn-lg" href="{{ route('products.create') }}" role="button">Create Product</a>
                 </div>
                 <div class="mx-3 my-3 table-responsive">
-                    <table id="myTable" class="table table-striped table-hover">
+                    <table id="products-table" class="table table-striped table-hover">
                         <caption>List of Product</caption>
                         <thead>
                             <tr>
-                                <th scope="col">id</th>
+                                <th scope="col">Id</th>
                                 <th scope="col">Product Name</th>
                                 <th scope="col">Product Price</th>
                                 <th scope="col">Description</th>
@@ -58,7 +58,17 @@
 
 @section('scripts')
 <script>
-    let table = new DataTable('#myTable');
+    $('#products-table').DataTable({
+        columnDefs: [
+            {
+                target: 0,
+                visible: false,
+                searchable: false,
+            }
+        ],
+        order: [[0, 'desc']],
+    });
+
     function deleteProduct(productId) {
         event.preventDefault(); //to suspend form submission
         Swal.fire({

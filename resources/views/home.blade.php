@@ -14,9 +14,9 @@
                         </div>
                     @endif
                     @role('Admin')
-                        <a href="{{ route('products.index') }}" style="text-decoration: none;">
-                            <div class=" border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded" style="width: 18rem;">
-                                <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3" style="width: 50px; height: 50px;">
+                        <a id="product-achor-tag" class="text-decoration-none" href="{{ route('products.index') }}">
+                            <div class=" border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded" id="product-card-main-div">
+                                <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3" id="product-card-font-div">
                                     <i class="fa-solid fa-plus fa-2x"></i>
                                 </div>
                                 <div class="card-body">
