@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     @include('response')
@@ -8,7 +7,7 @@
             <div class="card">
                 <div class="card-header">{{ isset($product) ? __('Edit Product') : __('Create Product') }}</div>
                 <div class="card-body">
-                    <form id="form" enctype="multipart/form-data"  method="POST"  @if(isset($product)) action="{{ route('product.update', $product->id) }}" @else action="{{ route('product.store') }}" @endif>
+                    <form id="form" enctype="multipart/form-data"  method="POST"  @if(isset($product)) action="{{ route('products.update', $product->id) }}" @else action="{{ route('products.store') }}" @endif>
                         @csrf
                         @if (isset($product))
                             @method('PUT')
@@ -74,7 +73,7 @@
                             </span>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg">{{ isset($product) ? "Update" : "Create" }}</button>
-                        <a class="btn btn-danger btn-lg" href="{{ url()->previous() }}" role="button">Cancle</a>
+                        <a class="btn btn-danger btn-lg" href="{{ url()->previous() }}" role="button">Cancel</a>
                     </form>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,14 +29,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/name/update', [App\Http\Controllers\ProfileController::class, 'updateName'])->name('profile.name.update');
     Route::post('/profile/password/update', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
-    Route::get('/product/create', [App\Http\Controllers\ProductController::class, 'index'])->name('product.create');
-    Route::get('/product/edit/{id}', [App\Http\Controllers\ProductController::class, 'editProduct'])->name('product.edit');
-    Route::put('/product/update/{id}', [App\Http\Controllers\ProductController::class, 'updateProduct'])->name('product.update');
-    Route::get('/product/listing', [App\Http\Controllers\ProductController::class, 'listProducts'])->name('product.listing');
-    Route::post('/product/store', [App\Http\Controllers\ProductController::class, 'storeProduct'])->name('product.store');
-    Route::delete('/product/{id}', [App\Http\Controllers\ProductController::class, 'destroyProduct'])->name('product.destroy');
-    Route::post('/temp-upload', [App\Http\Controllers\ProductController::class, 'tempUpload'])->name('temp.product.upload');
-    Route::delete('/temp-delete', [App\Http\Controllers\ProductController::class, 'tempDelete'])->name('temp.product.delete');
-
+    Route::group(['middleware' => ['role:Admin']], function () {
+        Route::resource('products', ProductController::class)->except('show');
+        Route::post('/temp-upload', [App\Http\Controllers\ProductController::class, 'tempUpload'])->name('temp.product.upload');
+        Route::delete('/temp-delete', [App\Http\Controllers\ProductController::class, 'tempDelete'])->name('temp.product.delete');
+    });
 });
-

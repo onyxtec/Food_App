@@ -9,8 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-
-
 class ProductController extends Controller
 {
     public function __construct()
@@ -18,16 +16,16 @@ class ProductController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-        return view('products.create');
+    public function index(){
+        $products = Product::with('images')->get();
+        return view('products.listing', compact('products'));
     }
 
-    public function storeProduct(Request $request){
+    public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9\s\-.,()&amp;#\']{1,255}$/'],
             'price' => 'required|numeric|min:0',
-            'description' => 'required|string',
+            'description' => 'required|string|max:5000',
         ]);
 
         $temporaryImages = TemporaryFile::all();
@@ -37,7 +35,7 @@ class ProductController extends Controller
                 Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
                 $temporaryImage->delete();
             }
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->with('error', 'Something went wrong!');
         }
 
         $product = new Product;
@@ -55,8 +53,72 @@ class ProductController extends Controller
             Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
             $temporaryImage->delete();
         }
+        return redirect()->route('products.index')->with('success', 'Your product  created. successfully!.');
+    }
 
-        return redirect()->back()->with('success', 'Your product  created. successfully!.');
+    public function create()
+    {
+        return view('products.create');
+    }
+
+    public function update(Request $request, $product_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9\s\-.,()&amp;#\']{1,255}$/'],
+            'price' => 'required|numeric|min:0',
+            'description' => 'required|string|max:5000',
+        ]);
+
+        $temporaryImages = TemporaryFile::all();
+
+        if ($validator->fails()) {
+            foreach($temporaryImages as $temporaryImage){
+                Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
+                $temporaryImage->delete();
+            }
+            return redirect()->back()->with('error', 'Something went wrong!');
+        }
+
+        $product = Product::find($product_id);
+        $product->name = $request->input('name');
+        $product->price = $request->input('price');
+        $product->description = $request->input('description');
+        $product->save();
+
+        foreach($temporaryImages as $temporaryImage){
+            Storage::copy('public/products/tmp/'.$temporaryImage->folder.'/'.$temporaryImage->file, 'public/products/'.$temporaryImage->folder.'/'.$temporaryImage->file);
+            $product->Images()->update([
+                'image' => $temporaryImage->folder.'/'.$temporaryImage->file
+            ]);
+            Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
+            $temporaryImage->delete();
+        }
+        return redirect()->route('products.index')->with('success', 'Your product updated. successfully!.');
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+        if($product){
+            foreach ($product->images as  $image) {
+                $path_arr = explode('/', $image->image);
+                $folder = $path_arr[0];
+                if($folder && Storage::disk('local')->exists('public/products/'.$folder)){
+                    Storage::disk('local')->deleteDirectory('public/products/'.$folder);
+                }
+            }
+            $product->delete();
+            return redirect()->back()->with('success', 'Product deleted successfully');
+        }
+        return redirect()->back()->with('error', 'Product not deleted successfully. Try again later!');
+    }
+
+    public function edit($id){ //editProduct
+        $product = Product::find($id);
+        if($product){
+            return view('products.create', compact('product'));
+        }
+        return redirect()->back()->with('error', 'Some thing went wrong. Try again later!');
     }
 
     public function tempUpload(Request $request){
@@ -100,70 +162,5 @@ class ProductController extends Controller
             $temporaryImage->delete();
         }
         session()->flash('success', 'Image removed successfully.');
-    }
-
-    public function listProducts(){
-        $products = Product::with('images')->get();
-        return view('products.listing', compact('products'));
-    }
-
-    public function destroyProduct($id)
-    {
-        $product = Product::find($id);
-        if($product){
-            foreach ($product->images as  $image) {
-                $path_arr = explode('/', $image->image);
-                $folder = $path_arr[0];
-                if($folder && Storage::disk('local')->exists('public/products/'.$folder)){
-                    Storage::disk('local')->deleteDirectory('public/products/'.$folder);
-                }
-            }
-            $product->delete();
-            return redirect()->back()->with('success', 'Product deleted successfully');
-        }
-        return redirect()->back()->with('error', 'Product not deleted successfully. Try again later!');
-    }
-
-    public function editProduct($id){
-        $product = Product::find($id);
-        if($product){
-            return view('products.create', compact('product'));
-        }
-        return redirect()->back()->with('error', 'Some thing went wrong. Try again later!');
-    }
-
-    public function updateProduct(Request $request, $product_id)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9\s\-.,()&amp;#\']{1,255}$/'],
-            'price' => 'required|numeric|min:0',
-            'description' => 'required|string',
-        ]);
-
-        $temporaryImages = TemporaryFile::all();
-
-        if ($validator->fails()) {
-            foreach($temporaryImages as $temporaryImage){
-                Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
-                $temporaryImage->delete();
-            }
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $product = Product::find($product_id);
-        $product->name = $request->input('name');
-        $product->price = $request->input('price');
-        $product->description = $request->input('description');
-        $product->save();
-
-        foreach($temporaryImages as $temporaryImage){
-            Storage::copy('public/products/tmp/'.$temporaryImage->folder.'/'.$temporaryImage->file, 'public/products/'.$temporaryImage->folder.'/'.$temporaryImage->file);
-            $product->Images()->update([
-                'image' => $temporaryImage->folder.'/'.$temporaryImage->file
-            ]);
-            Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
-            $temporaryImage->delete();
-        }
-        return redirect()->route('product.listing')->with('success', 'Your product updated. successfully!.');
     }
 }
