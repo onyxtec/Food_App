@@ -13,7 +13,7 @@ class OfficeBoyController extends Controller
      */
     public function index()
     {
-        return view('officeBoys.listing');
+        return view('officeBoys.index');
     }
 
     /**
