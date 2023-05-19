@@ -21,7 +21,7 @@
                                       <i class="fa-solid fa-plus fa-2x"></i>
                                     </div>
                                     <div class="card-body">
-                                      <h4>Create Products</h4>
+                                      <h4>Products</h4>
                                     </div>
                                 </a>
                             </div>
@@ -32,7 +32,7 @@
                                         <i class="fa-solid fa-person fa-2xl"></i>
                                     </div>
                                     <div class="card-body">
-                                      <h4>Create Office Boy</h4>
+                                      <h4>Office Boy</h4>
                                     </div>
                                 </a>
                             </div>

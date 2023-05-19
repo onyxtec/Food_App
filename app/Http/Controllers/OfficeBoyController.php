@@ -13,7 +13,8 @@ class OfficeBoyController extends Controller
      */
     public function index()
     {
-        return view('officeBoys.index');
+        $users = User::all();
+        return view('officeBoys.index', compact('users'));
     }
 
     /**
@@ -21,7 +22,7 @@ class OfficeBoyController extends Controller
      */
     public function create()
     {
-        return view('officeBoys.create');
+        return view('officeBoys.form');
     }
 
     /**
