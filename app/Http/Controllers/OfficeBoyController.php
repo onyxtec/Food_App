@@ -13,7 +13,7 @@ class OfficeBoyController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::role('Office Boy')->get();
         return view('officeBoys.index', compact('users'));
     }
 
@@ -37,43 +37,57 @@ class OfficeBoyController extends Controller
         ]);
 
         $user = new User;
-        $user->name =  $request->input('name');
-        $user->email =  $request->input('email');
-        $user->password =  Hash::make($request->input('password'));
+        $user->name =  $request->name;
+        $user->email =  $request->email;
+        $user->password =  Hash::make($request->password);
         $user->assignRole('Office Boy');
         $user->save();
-        return redirect()->back()->with('success', 'Office boy created successfully!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('officeBoy.index')->with('success', 'Office boy created successfully!');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $user = User::find($id);
+        if ($user){
+            return view('officeBoys.form', compact('user'));
+        }
+        return redirect()->back()->with('error', 'OfficeBoy not found!');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:8',
+        ]);
+
+        $user = User::find($id);
+        if($user){
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+            return redirect()->route('officeBoy.index')->with('success', 'OfficeBoy updated successfully.');
+        }
+        return redirect()->route('officeBoy.index')->with('error', 'OfficeBoy not found!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+            return redirect()->back()->with('success', 'Office Boy deleted successfully.');
+        }
+        return redirect()->back()->with('error', 'Office Boy not found.');
     }
 }

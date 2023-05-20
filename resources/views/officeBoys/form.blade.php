@@ -5,24 +5,26 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Office Boys') }}</div>
+                <div class="card-header">{{ isset($user) ? __('Edit Office Boy') : __('Create Office Boy') }}</div>
                 <div class="card-body">
-                    <form id="office-boy-form" enctype="multipart/form-data" method="POST" action="{{ route('officeBoy.store') }}">
+                    <form id="office-boy-form" enctype="multipart/form-data" method="POST" @if(isset($user)) action="{{ route('officeBoy.update', $user->id) }}" @else action="{{ route('officeBoy.store') }}" @endif>
                         @csrf
-                        @method('POST')
+                        @isset($user)
+                            @method('PUT')
+                        @endisset
+                        {{-- @method('POST') --}}
                         <div class="form-group mb-3">
                           <label for="name" class="form-label">Name</label>
-                          <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" value="{{old('name') }}" maxlength="255" required>
+                          <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" value="{{ isset($user) ? $user->name : old('name') }}" maxlength="255" required>
                             <span class="text-danger">
                                 @error('name')
                                 {{ $message }}
                                 @enderror
                             </span>
                         </div>
-
                         <div class="form-group mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" value="{{old('email') }}" maxlength="255" required>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" value="{{ isset($user) ? $user->email :  old('email') }}" maxlength="255" required>
                               <span class="text-danger">
                                   @error('email')
                                   {{ $message }}
@@ -30,7 +32,7 @@
                               </span>
                         </div>
 
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3 {{ isset($user) ? 'd-none' : '' }}">
                             <label for="productPrice" class="form-label">Password</label>
                             <div class="input-group">
                                 <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" value="{{ old('password') }}" minlength="8" required>
@@ -42,7 +44,7 @@
                                 @enderror
                             </span>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                        <button type="submit" class="btn btn-primary btn-lg">{{ isset($user) ? "Update" : "Create" }}</button>
                         <a class="btn btn-danger btn-lg" href="{{ url()->previous() }}" role="button">Cancel</a>
                     </form>
                 </div>

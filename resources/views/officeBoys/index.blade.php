@@ -1,7 +1,7 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
+    @include('response')
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -29,14 +29,12 @@
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         <div class="d-flex flex-row">
-                                            {{-- <form id="deleteForm" action="{{ route('products.destroy', $product->id) }}" method="POST"> --}}
-                                            <form id="deleteForm" action="#" method="POST">
+                                            <form id="deleteForm" action="{{ route('officeBoy.destroy', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button id="delete-product-list-button" type="submit" onclick="#" class="btn btn-danger btn-lg">Delete</button>
+                                                <button id="delete-office-boy-button" type="submit" class="btn btn-danger btn-lg">Delete</button>
                                             </form>
-                                            {{-- <a class="btn btn-primary btn-lg" href="{{ route('products.edit', $product->id) }}" role="button">Edit</a> --}}
-                                            <a class="btn btn-primary btn-lg" href="#" role="button">Edit</a>
+                                            <a class="btn btn-primary btn-lg" href="{{ route('officeBoy.edit', $user->id) }}" role="button">Edit</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -53,7 +51,16 @@
 
 @section('scripts')
 <script>
-    let table = new DataTable('#office-boy-table');
+    $('#office-boy-table').DataTable({
+        columnDefs: [
+            {
+                target: 0,
+                visible: false,
+                searchable: false,
+            }
+        ],
+        order: [[0, 'desc']],
+    });
 </script>
 
 @endsection
