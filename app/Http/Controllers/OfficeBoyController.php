@@ -33,6 +33,7 @@ class OfficeBoyController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
+            'password' => 'required|min:8',
         ]);
 
         $user = new User;
@@ -41,6 +42,7 @@ class OfficeBoyController extends Controller
         $user->password =  Hash::make($request->password);
         $user->assignRole('Office Boy');
         $user->save();
+
         return redirect()->route('office-boys.index')->with('success', 'Office Boy created successfully!');
     }
 
@@ -50,9 +52,11 @@ class OfficeBoyController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+
         if ($user){
             return view('office-boys.form', compact('user'));
         }
+
         return redirect()->back()->with('error', 'Office Boy not found!');
     }
 
@@ -65,13 +69,17 @@ class OfficeBoyController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
         ]);
+
         $user = User::find($id);
+
         if($user){
             $user->name = $request->name;
             $user->email = $request->email;
             $user->save();
+
             return redirect()->route('office-boys.index')->with('success', 'OfficeBoy updated successfully.');
         }
+
         return redirect()->route('office-boys.index')->with('error', 'Office Boy not found!');
     }
 
@@ -81,10 +89,12 @@ class OfficeBoyController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+
         if ($user) {
             $user->delete();
             return redirect()->back()->with('success', 'Office Boy deleted successfully!');
         }
+
         return redirect()->back()->with('error', 'Office Boy not found!');
     }
 }
