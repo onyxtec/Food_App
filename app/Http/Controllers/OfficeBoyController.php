@@ -14,7 +14,7 @@ class OfficeBoyController extends Controller
     public function index()
     {
         $users = User::role('Office Boy')->get();
-        return view('officeBoys.index', compact('users'));
+        return view('office-boys.index', compact('users'));
     }
 
     /**
@@ -42,7 +42,7 @@ class OfficeBoyController extends Controller
         $user->password =  Hash::make($request->password);
         $user->assignRole('Office Boy');
         $user->save();
-        return redirect()->route('officeBoy.index')->with('success', 'Office boy created successfully!');
+        return redirect()->route('officeBoy.index')->with('success', 'Office Boy created successfully!');
     }
 
     /**
@@ -54,7 +54,7 @@ class OfficeBoyController extends Controller
         if ($user){
             return view('officeBoys.form', compact('user'));
         }
-        return redirect()->back()->with('error', 'OfficeBoy not found!');
+        return redirect()->back()->with('error', 'Office Boy not found!');
     }
 
     /**
@@ -74,7 +74,7 @@ class OfficeBoyController extends Controller
             $user->save();
             return redirect()->route('officeBoy.index')->with('success', 'OfficeBoy updated successfully.');
         }
-        return redirect()->route('officeBoy.index')->with('error', 'OfficeBoy not found!');
+        return redirect()->route('officeBoy.index')->with('error', 'Office Boy not found!');
     }
 
     /**
@@ -85,8 +85,8 @@ class OfficeBoyController extends Controller
         $user = User::find($id);
         if ($user) {
             $user->delete();
-            return redirect()->back()->with('success', 'Office Boy deleted successfully.');
+            return redirect()->back()->with('success', 'Office Boy deleted successfully!');
         }
-        return redirect()->back()->with('error', 'Office Boy not found.');
+        return redirect()->back()->with('error', 'Office Boy not found!');
     }
 }

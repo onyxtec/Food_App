@@ -29,10 +29,10 @@
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         <div class="d-flex flex-row">
-                                            <form id="deleteForm" action="{{ route('officeBoy.destroy', $user->id) }}" method="POST">
+                                            <form id="deleteForm{{ $user->id }}" action="{{ route('officeBoy.destroy', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button id="delete-office-boy-button" type="submit" class="btn btn-danger btn-lg">Delete</button>
+                                                <button id="delete-office-boy-button" type="submit" onclick="deleteOffoceBoy({{ $user->id }})" class="btn btn-danger btn-lg">Delete</button>
                                             </form>
                                             <a class="btn btn-primary btn-lg" href="{{ route('officeBoy.edit', $user->id) }}" role="button">Edit</a>
                                         </div>
@@ -61,6 +61,23 @@
         ],
         order: [[0, 'desc']],
     });
+
+    function deleteOffoceBoy(productId) {
+        event.preventDefault(); //to suspend form submission
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('deleteForm' + productId).submit();
+            }
+        });
+    }
 </script>
 
 @endsection
