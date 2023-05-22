@@ -19,7 +19,7 @@
                                 <th scope="col">Product Price</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Images</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>

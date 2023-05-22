@@ -5,12 +5,12 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Office boy listing') }}</div>
+                <div class="card-header">{{ __('Office Boy Listing') }}</div>
                 <div class="card-body">
                     <div id="create-btn-on-listing" class="d-flex justify-content-end mt-3">
-                        <a class="btn btn-primary btn-lg" href="{{ route('officeBoy.create') }}" role="button">Create Office Boy</a>
+                        <a class="btn btn-primary btn-lg" href="{{ route('office-boys.create') }}" role="button">Create Office Boy</a>
                     </div>
-                    <div class="mx-3 my-3 table-responsive">
+                    <div class="m-3 table-responsive">
                         <table id="office-boy-table" class="table table-striped table-hover">
                             <caption>List of Office Boy</caption>
                             <thead>
@@ -18,7 +18,7 @@
                                     <th scope="col">id</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,12 +29,12 @@
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         <div class="d-flex flex-row">
-                                            <form id="deleteForm{{ $user->id }}" action="{{ route('officeBoy.destroy', $user->id) }}" method="POST">
+                                            <form id="deleteForm{{ $user->id }}" action="{{ route('office-boys.destroy', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button id="delete-office-boy-button" type="submit" onclick="deleteOffoceBoy({{ $user->id }})" class="btn btn-danger btn-lg">Delete</button>
                                             </form>
-                                            <a class="btn btn-primary btn-lg" href="{{ route('officeBoy.edit', $user->id) }}" role="button">Edit</a>
+                                            <a class="btn btn-primary btn-lg" href="{{ route('office-boys.edit', $user->id) }}" role="button">Edit</a>
                                         </div>
                                     </td>
                                 </tr>

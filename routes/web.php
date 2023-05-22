@@ -35,6 +35,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/temp-upload', [App\Http\Controllers\ProductController::class, 'tempUpload'])->name('temp.product.upload');
         Route::delete('/temp-delete', [App\Http\Controllers\ProductController::class, 'tempDelete'])->name('temp.product.delete');
 
-        Route::resource('officeBoy', OfficeBoyController::class)->except('show');
+        Route::resource('office-boys', OfficeBoyController::class)->except('show');
     });
 });

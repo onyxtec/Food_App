@@ -15,9 +15,9 @@
                     @endif
                     @role('Admin')
                         <div class="d-flex flex-row">
-                            <div class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded" style="width: 18rem;">
+                            <div id="product-card-div" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
                                 <a href="{{ route('products.index') }}" class="text-decoration-none">
-                                    <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3" style="width: 50px; height: 50px;">
+                                    <div id="product-card-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
                                       <i class="fa-solid fa-plus fa-2x"></i>
                                     </div>
                                     <div class="card-body">
@@ -26,9 +26,9 @@
                                 </a>
                             </div>
 
-                            <div id="office-boy-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded" style="width: 18rem;">
-                                <a href="{{ route('officeBoy.index') }}" class="text-decoration-none">
-                                    <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3" style="width: 50px; height: 50px;">
+                            <div id="office-boy-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
+                                <a href="{{ route('office-boys.index') }}" class="text-decoration-none">
+                                    <div id="office-boy-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
                                         <i class="fa-solid fa-person fa-2xl"></i>
                                     </div>
                                     <div class="card-body">

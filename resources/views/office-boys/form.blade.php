@@ -7,15 +7,14 @@
             <div class="card">
                 <div class="card-header">{{ isset($user) ? __('Edit Office Boy') : __('Create Office Boy') }}</div>
                 <div class="card-body">
-                    <form id="office-boy-form" enctype="multipart/form-data" method="POST" @if(isset($user)) action="{{ route('officeBoy.update', $user->id) }}" @else action="{{ route('officeBoy.store') }}" @endif>
+                    <form id="office-boy-form" enctype="multipart/form-data" method="POST" @if(isset($user)) action="{{ route('office-boys.update', $user->id) }}" @else action="{{ route('office-boys.store') }}" @endif>
                         @csrf
                         @isset($user)
                             @method('PUT')
                         @endisset
-                        {{-- @method('POST') --}}
                         <div class="form-group mb-3">
                           <label for="name" class="form-label">Name</label>
-                          <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" value="{{ isset($user) ? $user->name : old('name') }}" maxlength="255" required>
+                          <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" value="{{ old('name', isset($user) ? $user->name : '') }}" maxlength="255" required>
                             <span class="text-danger">
                                 @error('name')
                                 {{ $message }}
@@ -24,7 +23,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" value="{{ isset($user) ? $user->email :  old('email') }}" maxlength="255" required>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" value="{{ old('email', isset($user) ? $user->email : '') }}" maxlength="255" required>
                               <span class="text-danger">
                                   @error('email')
                                   {{ $message }}
@@ -33,7 +32,7 @@
                         </div>
 
                         <div class="form-group mb-3 {{ isset($user) ? 'd-none' : '' }}">
-                            <label for="productPrice" class="form-label">Password</label>
+                            <label for="password" class="form-label">Password</label>
                             <div class="input-group">
                                 <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" value="{{ old('password') }}" minlength="8" @if(isset($user)) disabled @else required @endif>
                                 <span class="input-group-text eye-icon"><i class="fa fa-eye"></i></span>
