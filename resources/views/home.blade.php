@@ -14,16 +14,29 @@
                         </div>
                     @endif
                     @role('Admin')
-                        <a id="product-achor-tag" class="text-decoration-none" href="{{ route('products.index') }}">
-                            <div class=" border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded" id="product-card-main-div">
-                                <div class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3" id="product-card-font-div">
-                                    <i class="fa-solid fa-plus fa-2x"></i>
-                                </div>
-                                <div class="card-body">
-                                    <h4>Create Products</h4>
-                                </div>
+                        <div class="d-flex flex-row">
+                            <div id="product-card-div" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
+                                <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                    <div id="product-card-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                                      <i class="fa-solid fa-plus fa-2x"></i>
+                                    </div>
+                                    <div class="card-body">
+                                      <h4>Products</h4>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
+
+                            <div id="office-boy-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
+                                <a href="{{ route('office-boys.index') }}" class="text-decoration-none">
+                                    <div id="office-boy-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                                        <i class="fa-solid fa-person fa-2xl"></i>
+                                    </div>
+                                    <div class="card-body">
+                                      <h4>Office Boy</h4>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     @endrole
                 </div>
             </div>

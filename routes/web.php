@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OfficeBoyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
@@ -33,5 +34,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('products', ProductController::class)->except('show');
         Route::post('/temp-upload', [ProductController::class, 'tempUpload'])->name('temp.product.upload');
         Route::delete('/temp-delete', [ProductController::class, 'tempDelete'])->name('temp.product.delete');
+
+        Route::resource('office-boys', OfficeBoyController::class)->except('show');
     });
 });
