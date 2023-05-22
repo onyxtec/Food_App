@@ -35,7 +35,7 @@
                         <div class="form-group mb-3 {{ isset($user) ? 'd-none' : '' }}">
                             <label for="productPrice" class="form-label">Password</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" value="{{ old('password') }}" minlength="8" required>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" value="{{ old('password') }}" minlength="8" @if(isset($user)) disabled @else required @endif>
                                 <span class="input-group-text eye-icon"><i class="fa fa-eye"></i></span>
                             </div>
                                 <span class="text-danger">
