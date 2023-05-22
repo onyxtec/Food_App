@@ -14,11 +14,12 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('remove_images')->only(['edit','create']);
     }
 
     public function index(){
-        $products = Product::with('images')->get();
-        return view('products.listing', compact('products'));
+        $products = Product::with('images')->latest()->get();
+        return view('products.index', compact('products'));
     }
 
     public function store(Request $request){
@@ -39,9 +40,9 @@ class ProductController extends Controller
         }
 
         $product = new Product;
-        $product->name = $request->input('name');
-        $product->price = $request->input('price');
-        $product->description = $request->input('description');
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->description = $request->description;
         $product->save();
 
         foreach($temporaryImages as $temporaryImage){
@@ -53,12 +54,13 @@ class ProductController extends Controller
             Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
             $temporaryImage->delete();
         }
-        return redirect()->route('products.index')->with('success', 'Your product  created. successfully!.');
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 
     public function create()
     {
-        return view('products.create');
+        return view('products.form');
     }
 
     public function update(Request $request, $product_id)
@@ -80,20 +82,38 @@ class ProductController extends Controller
         }
 
         $product = Product::find($product_id);
-        $product->name = $request->input('name');
-        $product->price = $request->input('price');
-        $product->description = $request->input('description');
-        $product->save();
 
-        foreach($temporaryImages as $temporaryImage){
-            Storage::copy('public/products/tmp/'.$temporaryImage->folder.'/'.$temporaryImage->file, 'public/products/'.$temporaryImage->folder.'/'.$temporaryImage->file);
-            $product->Images()->update([
-                'image' => $temporaryImage->folder.'/'.$temporaryImage->file
-            ]);
-            Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
-            $temporaryImage->delete();
+        if($product){
+            foreach ($product->images as  $image) {
+                $path_arr = explode('/', $image->image);
+                $folder = $path_arr[0];
+                if($folder && Storage::disk('local')->exists('public/products/'.$folder)){
+                    Storage::disk('local')->deleteDirectory('public/products/'.$folder);
+                }
+                $image->delete();
+            }
+
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->description = $request->description;
+            $product->save();
+
+            foreach($temporaryImages as $temporaryImage){
+                Storage::copy('public/products/tmp/'.$temporaryImage->folder.'/'.$temporaryImage->file, 'public/products/'.$temporaryImage->folder.'/'.$temporaryImage->file);
+
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'image' => $temporaryImage->folder.'/'.$temporaryImage->file
+                ]);
+
+                Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
+                $temporaryImage->delete();
+            }
+
+            return redirect()->route('products.index')->with('success', 'Product updated successfully.');
         }
-        return redirect()->route('products.index')->with('success', 'Your product updated. successfully!.');
+
+        return redirect()->route('products.index')->with('error', 'Product not found.');
     }
 
     public function destroy($id)
@@ -110,26 +130,26 @@ class ProductController extends Controller
             $product->delete();
             return redirect()->back()->with('success', 'Product deleted successfully');
         }
-        return redirect()->back()->with('error', 'Product not deleted successfully. Try again later!');
+        return redirect()->back()->with('error', 'Product not found.');
     }
 
-    public function edit($id){ //editProduct
+    public function edit($id){
         $product = Product::find($id);
         if($product){
-            return view('products.create', compact('product'));
+            return view('products.form', compact('product'));
         }
-        return redirect()->back()->with('error', 'Some thing went wrong. Try again later!');
+        return redirect()->back()->with('error', 'Product not found.');
     }
 
     public function tempUpload(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ],[
-            'image.*.required' => 'The image field is required.',
-            'image.*.image' => 'The file must be an image.',
-            'image.*.mimes' => 'The image must be a JPEG, PNG, or JPG file.',
-            'image.*.max' => 'The image may not be greater than 2MB.',
+            'images.*.required' => 'The image field is required.',
+            'images.*.image' => 'The file must be an image.',
+            'images.*.mimes' => 'The image must be a JPEG, PNG, or JPG file.',
+            'images.*.max' => 'The image may not be greater than 2MB.',
         ]);
 
         if ($validator->fails()) {
@@ -139,8 +159,8 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->hasFile('image')) {
-            $images = $request->file('image');
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
             foreach ($images as $image) {
                 $file_name = $image->getClientOriginalName();
                 $folder = uniqid('product-', true);
@@ -161,6 +181,5 @@ class ProductController extends Controller
             Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
             $temporaryImage->delete();
         }
-        session()->flash('success', 'Image removed successfully.');
     }
 }
