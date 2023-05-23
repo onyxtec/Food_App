@@ -14,7 +14,7 @@
                         @endif
                         <div class="form-group mb-3">
                           <label for="name" class="form-label" >Product Name</label>
-                          <input type="text" class="form-control" name="name" id="name" placeholder="Enter product name" value="{{ isset($product) ? $product->name : old('name') }}" maxlength="255" required>
+                          <input type="text" class="form-control" name="name" id="name" placeholder="Enter product name" value="{{ old('name', isset($product) ? $product->name : '') }}" maxlength="255" required>
                             <span class="text-danger">
                                 @error('name')
                                 {{ $message }}
@@ -23,7 +23,7 @@
                         </div>
                         <div class="form-group mb-3">
                           <label for="description" class="form-label">Product Description</label>
-                          <textarea class="form-control" name="description" id="description" placeholder="Enter product description" required>{{ isset($product) ? $product->description : old('description') }}</textarea>
+                          <textarea class="form-control" name="description" id="description" placeholder="Enter product description" required>{{ old('description', isset($product) ? $product->description : '')  }}</textarea>
                             <span class="text-danger">
                                 @error('description')
                                     {{ $message }}
@@ -36,7 +36,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Rs.</span>
                                 </div>
-                                <input type="number" class="form-control" name="price" id="price" placeholder="Enter product price" value="{{ isset($product) ? $product->price : old('price') }}" min="0" required>
+                                <input type="number" class="form-control" name="price" id="price" placeholder="Enter product price" value="{{ old('price', isset($product) ? $product->price : '')  }}" min="0" required>
                             </div>
                             <span class="text-danger">
                                 @error('price')

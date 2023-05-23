@@ -36,6 +36,17 @@
                                     </div>
                                 </a>
                             </div>
+
+                            <div id="top-up-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
+                                <a href="{{ route('amount-top-up.index') }}" class="text-decoration-none">
+                                    <div id="top-up-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                                        <i class="fa-regular fa-credit-card-front fa-2xl"></i>
+                                    </div>
+                                    <div class="card-body">
+                                      <h4>Top Up Manual</h4>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     @endrole
                 </div>
