@@ -37,4 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('office-boys', OfficeBoyController::class)->except('show');
     });
+
+    Route::get('/product/{id}/details', [ProductController::class, 'productDetails'])->name('product.productDetails');
+    Route::get('/product/{id}/add-to-cart', [ProductController::class, 'addToCart'])->name('product.add.to.cart');
 });

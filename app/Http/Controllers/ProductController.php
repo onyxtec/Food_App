@@ -182,4 +182,40 @@ class ProductController extends Controller
             $temporaryImage->delete();
         }
     }
+
+    public function productDetails($id){
+        $product = Product::find($id);
+        if ($product) {
+            return view('products.product-details', compact('product'));
+        }
+        return redirect()->route('home')->with('error', 'Product details not found');
+    }
+
+    public function addToCart($id){
+
+        $product = Product::find($id);
+
+        // dd($product->images ,Arr::first($product->images));
+        // dd($product->images, $product->images()->first(),Arr::first($product->images));
+        // dd($product->images()->first()->image);
+
+        if($product){
+            $cart = session()->get('cart', []);
+            if(isset($cart[$id])) {
+                $cart[$id]['quantity']++;
+            }  else {
+                $cart[$id] = [
+                    "name" => $product->name,
+                    "image" => $product->images()->first()->image,
+                    "price" => $product->price,
+                    "quantity" => 1
+                ];
+            }
+            session()->put('cart', $cart);
+            return redirect()->back()->with('success', 'Product add to cart successfully!');
+        }
+        return redirect()->route('home')->with('error', 'Product not found');
+
+
+    }
 }
