@@ -36,7 +36,7 @@
                                     <td>{{ $user->balance. " Rs" }}</td>
                                     <td>
                                         <div class="d-flex flex-row">
-                                            <button type="button" class="btn btn-primary edit-topup-btn" value="{{ $user->id }}">Edit balance</button>
+                                            <button type="button" class="btn btn-primary edit-balance-btn" value="{{ $user->id }}">Edit Balance</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -46,11 +46,11 @@
                 </div>
 
                 <!-- Modal -->
-                <div class="modal fade" id="edit-topup-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="edit-balance-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Edit balance </h4>
+                                <h4 class="modal-title">Edit Balance</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body">
@@ -65,7 +65,7 @@
                                         <label for="sub-balance">Deduct Balance</label>
                                         <input type="number" class="form-control" id="sub-balance" name="sub_balance" min="0">
                                     </div>
-                                    <div id="form-error" class="error-message"></div>
+                                    <div id="balance-form-error" class="error-message"></div>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -84,50 +84,68 @@
 @section('scripts')
     <script type="text/javascript">
         $('#employee-listing-table').DataTable({
-        columnDefs: [
-            {
-                target: 0,
-                visible: false,
-                searchable: false,
-            }
-        ],
-        order: [[0, 'desc']],
-    });
-
-    $(document).ready(function(){
-        $(document).on('click', '.edit-topup-btn', function (){
-            event.preventDefault();
-            let userId = $(this).val();
-            $('#balance-form').attr("action", "amount-top-up/"+ userId);
-            $('#edit-topup-modal').modal('show');
+            columnDefs: [
+                {
+                    target: 0,
+                    visible: false,
+                    searchable: false,
+                }
+            ],
+            order: [[0, 'desc']],
         });
-    });
 
-    $('#balance-form').submit(function(event) {
-        let addBalance = $('#add-balance').val();
-        let subBalance = $('#sub-balance').val();
-        let error = false;
+        $(document).ready(function(){
+            $(document).on('click', '.edit-balance-btn', function (){
+                event.preventDefault();
+                let userId = $(this).val();
+                $('#balance-form').attr("action", "employee/"+ userId +"/edit/balance");
+                $('#edit-balance-modal').modal('show');
+            });
+        });
 
-        if (addBalance === '' && subBalance === '') {
-            $('#add-balance').addClass('is-invalid');
-            $('#sub-balance').addClass('is-invalid');
-            $('#form-error').text('Please provide a value for either "Add Balance" or "Deduct Balance" field.').addClass('text-danger');
-            error = true;
-        } else {
-            $('#add-balance').removeClass('is-invalid');
-            $('#sub-balance').removeClass('is-invalid');
-            $('#form-error').text('');
-        }
+        $('#add-balance').keyup(function() {
+            if ($(this).val() !== '') {
+                $('#sub-balance').prop('disabled', true);
+                $('#sub-balance').val('');
+            } else {
+                $('#sub-balance').prop('disabled', false);
+            }
+        });
 
-        if (error) {
-            event.preventDefault();
-        }
-    });
+        $('#sub-balance').keyup(function() {
+            if ($(this).val() !== '') {
+                $('#add-balance').prop('disabled', true);
+                $('#add-balance').val('');
+            } else {
+                $('#add-balance').prop('disabled', false);
+            }
+        });
 
-    $('#add-balance, #sub-balance').keyup(function() {
-        $(this).removeClass('is-invalid');
-        $('#form-error').text('');
-    });
+        $('#balance-form').submit(function(event) {
+            let addBalance = $('#add-balance').val();
+            let subBalance = $('#sub-balance').val();
+            let error = false;
 
- </script>
+            if (addBalance === '' && subBalance === '') {
+                $('#add-balance').addClass('is-invalid');
+                $('#sub-balance').addClass('is-invalid');
+                $('#balance-form-error').text('Please provide a value for either "Add Balance" or "Deduct Balance" field.').addClass('text-danger');
+                error = true;
+            } else {
+                $('#add-balance').removeClass('is-invalid');
+                $('#sub-balance').removeClass('is-invalid');
+                $('#balance-form-error').text('');
+            }
+
+            if (error) {
+                event.preventDefault();
+            }
+        });
+
+        $('#add-balance, #sub-balance').keyup(function() {
+            $(this).removeClass('is-invalid');
+            $('#balance-form-error').text('');
+        });
+
+    </script>
 @endsection

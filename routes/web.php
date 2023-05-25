@@ -3,7 +3,7 @@
 use App\Http\Controllers\OfficeBoyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\AmountTopUpController;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/temp-delete', [ProductController::class, 'tempDelete'])->name('temp.product.delete');
 
         Route::resource('office-boys', OfficeBoyController::class)->except('show');
-        Route::resource('amount-top-up', AmountTopUpController::class)->only(['index', 'update']);
+
+        Route::get('employees', [EmployeeController::class, 'index'])->name('employee.index');
+        Route::put('employee/{id}/edit/balance', [EmployeeController::class, 'updateBalance'])->name('employee.edit.balance');
     });
 });
