@@ -8,6 +8,7 @@ use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Cart;
 
 class ProductController extends Controller
 {
@@ -195,27 +196,47 @@ class ProductController extends Controller
 
         $product = Product::find($id);
 
-        // dd($product->images ,Arr::first($product->images));
-        // dd($product->images, $product->images()->first(),Arr::first($product->images));
-        // dd($product->images()->first()->image);
+        // // dd($product->images ,Arr::first($product->images));
+        // // dd($product->images, $product->images()->first(),Arr::first($product->images));
+        // // dd($product->images()->first()->image);
+
+        // if($product){
+        //     $cart = session()->get('cart', []);
+        //     if(isset($cart[$id])) {
+        //         $cart[$id]['quantity']++;
+        //     }  else {
+        //         $cart[$id] = [
+        //             "name" => $product->name,
+        //             "image" => $product->images()->first()->image,
+        //             "price" => $product->price,
+        //             "quantity" => 1
+        //         ];
+        //     }
+        //     session()->put('cart', $cart);
+        //     return redirect()->back()->with('success', 'Product add to cart successfully!');
+        // }
+        // return redirect()->route('home')->with('error', 'Product not found');
 
         if($product){
-            $cart = session()->get('cart', []);
-            if(isset($cart[$id])) {
-                $cart[$id]['quantity']++;
-            }  else {
-                $cart[$id] = [
-                    "name" => $product->name,
-                    "image" => $product->images()->first()->image,
-                    "price" => $product->price,
-                    "quantity" => 1
-                ];
+            $cart_item = Cart::get($product->id);
+            if($cart_item){
+                Cart::update($product->id, [
+                    'quantity' => $cart_item->quantity++,
+                ]);
+                return redirect()->back()->with('success', 'Product added to cart successfully!');
+            }else{
+                Cart::add(array(
+                    'id' => $product->id, // inique row ID
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                    'attributes' => array(
+                        'image' => $product->images()->first()->image,
+                    )
+                ));
+                return redirect()->back()->with('success', 'Product added to cart successfully!');
             }
-            session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Product add to cart successfully!');
         }
         return redirect()->route('home')->with('error', 'Product not found');
-
-
     }
 }

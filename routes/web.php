@@ -39,5 +39,11 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/product/{id}/details', [ProductController::class, 'productDetails'])->name('product.productDetails');
-    Route::get('/product/{id}/add-to-cart', [ProductController::class, 'addToCart'])->name('product.add.to.cart');
+
+
+    // Route::get('/product/{id}/add-to-cart', [ProductController::class, 'addToCart'])->name('product.add.to.cart');
+
+    Route::post('/product/{id}/add-to-cart', [ProductController::class, 'addToCart'])->name('product.add.to.cart');
+
+
 });

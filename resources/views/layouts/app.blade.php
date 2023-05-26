@@ -126,17 +126,18 @@
                     @role('Employee')
                         <div class="dropdown dropend product-cart-dropdown-div">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span>
+                                {{-- <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-pill badge-danger">{{ count((array) session('cart')) }}</span> --}}
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart <span class="badge badge-pill badge-danger">{{ Cart::getContent()->count() }}</span>
                             </button>
 
                             <div class= "dropdown-menu product-cart-dropdown-menu-div mt-4">
                                 <div class="row total-header-section">
-                                    @php $total = 0 @endphp
+                                    {{-- @php $total = 0 @endphp
                                     @foreach((array) session('cart') as $id => $details)
                                         @php $total += $details['price'] * $details['quantity'] @endphp
-                                    @endforeach
+                                    @endforeach --}}
                                     <div class="col-lg-12 col-sm-12 col-12 total-section text-right">
-                                        <p>Total: <span class="text-info">{{ $total }} Rs.</span></p>
+                                        <p>Total: <span class="text-info">{{ Cart::getSubTotal() }} Rs.</span></p>
                                     </div>
                                 </div>
                                 @if(session('cart'))

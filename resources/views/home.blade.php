@@ -79,7 +79,6 @@
                             </div>
                         </a>
                     </div>
-
                     <div id="office-boy-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
                         <a href="{{ route('office-boys.index') }}" class="text-decoration-none">
                             <div id="office-boy-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
@@ -112,6 +111,12 @@
                                     <div class="d-flex flex-row justify-content-between">
                                         <p class="card-text overflow-hidden text-truncate" style="max-height: em; max-width: 15em">{{ $product->description }}</p>
                                         <a class="btn btn-primary" href="{{ route('product.add.to.cart', $product->id) }}" role="button">Add To Cart</a>
+                                        {{-- <form action="{{ route('product.add.to.cart', $product->id) }}" method="POST">
+                                            <div class="form-group">
+                                                <input type="hidden" name="quantity" value="1">
+                                                <button class="btn btn-primary" type="submit">Add To Cart</button>
+                                            </div>
+                                        </form> --}}
                                     </div>
                                 </div>
                             </div>
