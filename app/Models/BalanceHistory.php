@@ -10,7 +10,6 @@ class BalanceHistory extends Model
 {
     use HasFactory;
 
-    protected $table = 'balance_history';
     protected $fillable= ['amount_added', 'amount_deducted', 'updated_balance', 'user_id'];
 
     public function user(): BelongsTo

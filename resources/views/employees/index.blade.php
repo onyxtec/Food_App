@@ -143,7 +143,8 @@
         });
 
         $('#add-balance, #sub-balance').keyup(function() {
-            $(this).removeClass('is-invalid');
+            $('#add-balance').removeClass('is-invalid');
+            $('#sub-balance').removeClass('is-invalid');
             $('#balance-form-error').text('');
         });
 

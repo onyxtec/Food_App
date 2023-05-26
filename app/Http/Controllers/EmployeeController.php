@@ -11,17 +11,26 @@ class EmployeeController extends Controller
     public function index()
     {
         $users = User::role('Employee')->get();
-        return view('employee-listing', compact('users'));
+        return view('employees.index', compact('users'));
 
     }
 
     public function updateBalance(Request $request, $id){
         $request->validate([
-            'add_balance' => 'nullable|numeric|min:0|required_without:sub_balance',
+            'add_balance' => 'nullable|numeric|min:0',
             'sub_balance' => 'nullable|numeric|min:0',
         ]);
 
+        if($request->add_balance && $request->sub_balance){
+            return redirect()->route('employee.index')->with('error', 'You cannot add and subtract balance at the same time.');
+        }
+
+        if(!$request->add_balance && !$request->sub_balance){
+            return redirect()->route('employee.index')->with('error', 'Please either add or subtract balance.');
+        }
+
         $user = User::find($id);
+
         if($user){
             if($request->add_balance){
                 $user->balance += $request->add_balance;
@@ -50,6 +59,7 @@ class EmployeeController extends Controller
 
     private function balanceHistory($amount_added = null, $amount_deducted = null, $updated_balance, $user_id) {
         $balance_history = new BalanceHistory();
+
         if ($amount_added) {
             $balance_history->amount_added = $amount_added;
         }
@@ -57,6 +67,7 @@ class EmployeeController extends Controller
         if($amount_deducted){
             $balance_history->amount_deducted = $amount_deducted;
         }
+
         $balance_history->updated_balance = $updated_balance;
         $balance_history->user_id = $user_id;
         $balance_history->save();
