@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\TemporaryFile;
@@ -195,37 +196,18 @@ class ProductController extends Controller
     public function addToCart($id){
 
         $product = Product::find($id);
-
-        // // dd($product->images ,Arr::first($product->images));
-        // // dd($product->images, $product->images()->first(),Arr::first($product->images));
-        // // dd($product->images()->first()->image);
-
-        // if($product){
-        //     $cart = session()->get('cart', []);
-        //     if(isset($cart[$id])) {
-        //         $cart[$id]['quantity']++;
-        //     }  else {
-        //         $cart[$id] = [
-        //             "name" => $product->name,
-        //             "image" => $product->images()->first()->image,
-        //             "price" => $product->price,
-        //             "quantity" => 1
-        //         ];
-        //     }
-        //     session()->put('cart', $cart);
-        //     return redirect()->back()->with('success', 'Product add to cart successfully!');
-        // }
-        // return redirect()->route('home')->with('error', 'Product not found');
-
         if($product){
-            $cart_item = Cart::get($product->id);
+            $cart_item = \Cart::get($product->id);
             if($cart_item){
-                Cart::update($product->id, [
-                    'quantity' => $cart_item->quantity++,
+
+                \Cart::update($product->id, [
+                    'quantity' => 1,
                 ]);
+
                 return redirect()->back()->with('success', 'Product added to cart successfully!');
+
             }else{
-                Cart::add(array(
+                \Cart::add(array(
                     'id' => $product->id, // inique row ID
                     'name' => $product->name,
                     'price' => $product->price,
@@ -238,5 +220,120 @@ class ProductController extends Controller
             }
         }
         return redirect()->route('home')->with('error', 'Product not found');
+    }
+
+    public function cartList(){
+        $cart_items = \Cart::getContent();
+        $total = \Cart::getTotal();
+        return view('cart.view-cart' ,compact('cart_items', 'total'));
+    }
+
+    public function removeCart($id)
+    {
+        if(\Cart::get($id)){
+            \Cart::remove($id);
+            return redirect()->back()->with('success', 'Product removed successfully!');
+        }
+        return redirect()->back()->with('error', 'Product not found');
+
+    }
+
+    public function updateCart(Request $request, $id){
+        $request->validate([
+            'quantity' => 'required|numeric|min:1',
+        ]);
+
+        if(\Cart::get($id)){
+
+            \Cart::update($id,[
+                'quantity' => [
+                    'relative' => false,
+                    'value' => $request->quantity,
+                ],
+            ]);
+
+            return redirect()->back()->with('success', 'Quantity updated successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Product not found');
+    }
+
+    public function addToCartDetail(Request $request, $id){
+        $request->validate([
+            'quantity' => 'required|numeric|min:1',
+        ]);
+
+        $product = Product::find($id);
+        if($product){
+            $cart_item = \Cart::get($product->id);
+
+            if($cart_item){
+
+                \Cart::update($product->id,[
+                    'quantity' => [
+                        'relative' => false,
+                        'value' => $request->quantity,
+                    ],
+                ]);
+
+                return redirect()->back()->with('success', 'Quantity updated successfully.');
+            }else{
+
+                \Cart::add(array(
+                    'id' => $product->id, // inique row ID
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => $request->quantity,
+                    'attributes' => array(
+                        'image' => $product->images()->first()->image,
+                    )
+                ));
+
+                return redirect()->back()->with('success', 'Product added to cart successfully!');
+            }
+        }
+        return redirect()->back()->with('error', 'Product not found');
+    }
+
+    public function checkout(){
+
+        $cart_items = \Cart::getContent();
+        $total = \Cart::getTotal();
+        if(!$cart_items->isEmpty()){
+
+            return view('cart.checkout', compact('cart_items', 'total'));
+        }
+        return redirect()->back()->with('error', 'Your cart is empty');
+    }
+
+    public function placeOrder(){
+
+        $user = auth()->user();
+        $user_balance = $user->balance;
+        $total_cost = \Cart::getTotal();
+
+        if($user_balance >= $total_cost){
+
+            $order = new Order();
+            $order->status = 0; //[0='pending',  1='completed', 2='canceled']
+            $order->user_id = $user->id;
+            $order->save();
+            $cartItems = \Cart::getContent();
+
+            foreach ($cartItems as $cartItem) {
+                $product = Product::find($cartItem->id);
+
+                $order->products()->attach($product->id, [
+                    'quantity' => $cartItem->quantity,
+                    'price' => $product->price,
+                ]);
+            }
+
+            \Cart::clear();
+
+            return redirect()->route('home')->with('success', 'Your order has been created successfully');
+        }
+
+        return redirect()->route('home')->with('error', 'Insufficient balance.');
     }
 }

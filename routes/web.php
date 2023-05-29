@@ -41,9 +41,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/product/{id}/details', [ProductController::class, 'productDetails'])->name('product.productDetails');
 
 
-    // Route::get('/product/{id}/add-to-cart', [ProductController::class, 'addToCart'])->name('product.add.to.cart');
-
-    Route::post('/product/{id}/add-to-cart', [ProductController::class, 'addToCart'])->name('product.add.to.cart');
+    Route::get('/product/{id}/add-to-cart', [ProductController::class, 'addToCart'])->name('product.add.to.cart');
+    Route::get('/product/cart', [ProductController::class, 'cartList'])->name('product.view.to.cart');
+    Route::post('/product/{id}/cart/remove', [ProductController::class, 'removeCart'])->name('product.cart.remove');
+    Route::put('/product/{id}/cart/update', [ProductController::class, 'updateCart'])->name('product.cart.update');
+    Route::get('/product/{id}/add-to-cart/details', [ProductController::class, 'addToCartDetail'])->name('product.add.to.cart.detail');
+    Route::get('/product/cart/place-order', [ProductController::class, 'placeOrder'])->name('product.cart.placeOrder');
 
 
 });

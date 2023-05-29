@@ -30,13 +30,5 @@ class HomeController extends Controller
             return view('home', compact('error'));
         }
         return view('home', compact('products'));
-
-        // $products = Product::with('images')->get();
-        // if ($products){
-        //     return view('home', compact('products'));
-        // }
-        // return redirect()->back()->with('error', 'No product is available');
-
-        // return view('home');
     }
 }

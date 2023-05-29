@@ -22,7 +22,7 @@ class Order extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'order_details');
+        return $this->belongsToMany(Product::class, 'order_details')->withPivot('quantity', 'price')->withTimestamps();
     }
 
     public function review(): HasOne

@@ -16,7 +16,8 @@
 
 .product-cart-dropdown-div{
     float:right;
-    padding-right: 30px;
+    // padding-right: 30px;
+    // margin-left: 20px;
 }
 // .btn{
 //     border:0px;
@@ -64,7 +65,7 @@
     transform: scale(1.15);
 }
 
-#update-profile-image-button, #delete-product-list-button, #delete-office-boy-button{
+#update-profile-image-button, #delete-product-list-button, #delete-office-boy-button, #remove-cart-item-button{
     margin-right: 0.5rem;
 }
 
@@ -126,4 +127,12 @@
     font-size: 28px;
     font-weight: normal;
     cursor: pointer;
+}
+
+#cart-listing-image{
+    margin-right: 10px;
+}
+
+.btn .badge{
+    background-color: rgb(227, 68, 68);
 }
