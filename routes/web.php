@@ -3,6 +3,7 @@
 use App\Http\Controllers\OfficeBoyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,9 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/temp-delete', [ProductController::class, 'tempDelete'])->name('temp.product.delete');
 
         Route::resource('office-boys', OfficeBoyController::class)->except('show');
+
+        Route::get('order/time-settings', [OrderController::class, 'index'])->name('order.timings');
+        Route::put('order/time-settings/edit', [OrderController::class, 'updateTimeSettings'])->name('time-settings.update');
+
     });
 });
