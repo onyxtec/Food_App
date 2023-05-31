@@ -6,7 +6,10 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\TemporaryFile;
+use App\Models\User;
+use App\Notifications\OrderCreated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Cart;
@@ -322,18 +325,26 @@ class ProductController extends Controller
 
             foreach ($cartItems as $cartItem) {
                 $product = Product::find($cartItem->id);
-
                 $order->products()->attach($product->id, [
                     'quantity' => $cartItem->quantity,
                     'price' => $product->price,
                 ]);
             }
 
+            $this->sendSlackNotification($order);
             \Cart::clear();
 
             return redirect()->route('home')->with('success', 'Your order has been created successfully');
         }
 
         return redirect()->route('home')->with('error', 'Insufficient balance.');
+    }
+
+    private function sendSlackNotification(Order $order){
+        $office_boy = User::role('Office Boy')->get()->first();
+        if($office_boy){
+            $notification = new OrderCreated($order);
+            Notification::send($office_boy, $notification);
+        }
     }
 }
