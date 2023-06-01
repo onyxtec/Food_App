@@ -5,13 +5,12 @@ namespace App\Notifications;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
 use Cart;
 
-class OrderCreated extends Notification
+class OrderCreatedSlackNotification extends Notification implements ShouldQueue
 {
     use Queueable;
     protected $order;

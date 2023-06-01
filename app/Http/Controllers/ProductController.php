@@ -7,7 +7,8 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\TemporaryFile;
 use App\Models\User;
-use App\Notifications\OrderCreated;
+use App\Events\OrderCreated;
+use App\Notifications\OrderCreatedSlackNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
@@ -283,7 +284,7 @@ class ProductController extends Controller
             }else{
 
                 \Cart::add(array(
-                    'id' => $product->id, // inique row ID
+                    'id' => $product->id,
                     'name' => $product->name,
                     'price' => $product->price,
                     'quantity' => $request->quantity,
@@ -330,8 +331,8 @@ class ProductController extends Controller
                     'price' => $product->price,
                 ]);
             }
-
             $this->sendSlackNotification($order);
+            OrderCreated::dispatch($order);
             \Cart::clear();
 
             return redirect()->route('home')->with('success', 'Your order has been created successfully');
@@ -343,7 +344,7 @@ class ProductController extends Controller
     private function sendSlackNotification(Order $order){
         $office_boy = User::role('Office Boy')->get()->first();
         if($office_boy){
-            $notification = new OrderCreated($order);
+            $notification = new OrderCreatedSlackNotification($order);
             Notification::send($office_boy, $notification);
         }
     }
