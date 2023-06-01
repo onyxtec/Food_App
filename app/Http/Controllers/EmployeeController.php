@@ -22,11 +22,11 @@ class EmployeeController extends Controller
         ]);
 
         if($request->add_balance && $request->sub_balance){
-            return redirect()->route('employee.index')->with('error', 'You cannot add and subtract balance at the same time.');
+            return redirect()->route('employees.index')->with('error', 'You cannot add and subtract balance at the same time.');
         }
 
         if(!$request->add_balance && !$request->sub_balance){
-            return redirect()->route('employee.index')->with('error', 'Please either add or subtract balance.');
+            return redirect()->route('employees.index')->with('error', 'Please either add or subtract balance.');
         }
 
         $user = User::find($id);
@@ -36,25 +36,25 @@ class EmployeeController extends Controller
                 $user->balance += $request->add_balance;
                 $user->save();
                 $this->balanceHistory($request->add_balance, null, $user->balance, $id);
-                return redirect()->route('employee.index')->with('success', 'User balance added successfully');
+                return redirect()->route('employees.index')->with('success', 'User balance added successfully');
             }
 
             if($request->sub_balance){
                 if($user->balance < $request->sub_balance){
-                    return redirect()->route('employee.index')->with('error', 'User\'s balance is less than the deducted amount.');
+                    return redirect()->route('employees.index')->with('error', 'User\'s balance is less than the deducted amount.');
                 }
 
                 $user->balance -= $request->sub_balance;
                 $user->save();
                 $this->balanceHistory(null, $request->sub_balance, $user->balance, $id);
 
-                return redirect()->route('employee.index')->with('success', 'User balance deducted successfully');
+                return redirect()->route('employees.index')->with('success', 'User balance deducted successfully');
             }
 
-            return redirect()->route('employee.index')->with('error', 'Balance must either be added or deducted');
+            return redirect()->route('employees.index')->with('error', 'Balance must either be added or deducted');
         }
 
-        return redirect()->route('employee.index')->with('error', 'User not found!');
+        return redirect()->route('employees.index')->with('error', 'User not found!');
     }
 
     private function balanceHistory($amount_added = null, $amount_deducted = null, $updated_balance, $user_id) {

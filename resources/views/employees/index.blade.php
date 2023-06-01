@@ -98,7 +98,7 @@
             $(document).on('click', '.edit-balance-btn', function (){
                 event.preventDefault();
                 let userId = $(this).val();
-                $('#balance-form').attr("action", "employee/"+ userId +"/edit/balance");
+                $('#balance-form').attr("action", "employees/"+ userId +"/balance");
                 $('#edit-balance-modal').modal('show');
             });
         });

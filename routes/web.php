@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('office-boys', OfficeBoyController::class)->except('show');
 
-        Route::get('employees', [EmployeeController::class, 'index'])->name('employee.index');
-        Route::put('employee/{id}/edit/balance', [EmployeeController::class, 'updateBalance'])->name('employee.edit.balance');
+        Route::get('employees', [EmployeeController::class, 'index'])->name('employees.index');
+        Route::put('employees/{id}/balance', [EmployeeController::class, 'updateBalance'])->name('employees.balance.update');
     });
 });
