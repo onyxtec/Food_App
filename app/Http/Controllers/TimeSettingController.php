@@ -42,9 +42,7 @@ class TimeSettingController extends Controller
 
             $employees = User::role('Employee')->get();
             foreach ($employees as $employee) {
-                if($employee->name === 'Ali'){
-                    Mail::to($employee->email)->send(new OrderTimingsUpdated($time_setting));
-                }
+                Mail::to($employee->email)->send(new OrderTimingsUpdated($time_setting));
             }
             return redirect()->back()->withInput()->with('success', 'Time has been updated successfully');
         }
