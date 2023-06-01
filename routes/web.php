@@ -3,7 +3,7 @@
 use App\Http\Controllers\OfficeBoyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TimeSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +38,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('office-boys', OfficeBoyController::class)->except('show');
 
-        Route::get('order/time-settings', [OrderController::class, 'index'])->name('order.timings');
-        Route::put('order/time-settings/edit', [OrderController::class, 'updateTimeSettings'])->name('time-settings.update');
+        Route::get('time-settings', [TimeSettingController::class, 'index'])->name('time-settings.index');
+        Route::put('time-settings', [TimeSettingController::class, 'update'])->name('time-settings.update');
 
     });
 });

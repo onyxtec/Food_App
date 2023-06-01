@@ -13,6 +13,14 @@ class TimeSettingSeeder extends Seeder
      */
     public function run(): void
     {
-       TimeSetting::create(['order_start_time'=>'09:00:00', 'order_end_time'=>'01:00:00']);
+        $start_in_time_12Hour = '12:00:00 AM';
+        $carbon_time = \Carbon\Carbon::createFromFormat('h:i:s A', $start_in_time_12Hour);
+        $start_in_time_24Hour = $carbon_time->format('H:i:s');
+
+        $end_in_time_12Hour = '01:00:00 PM';
+        $carbon_time = \Carbon\Carbon::createFromFormat('h:i:s A', $end_in_time_12Hour);
+        $end_in_time_24Hour = $carbon_time->format('H:i:s');
+
+       TimeSetting::create(['order_start_time'=>$start_in_time_24Hour, 'order_end_time'=>$end_in_time_24Hour]);
     }
 }

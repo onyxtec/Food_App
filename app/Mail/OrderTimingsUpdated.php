@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NewTimingsNotification extends Mailable
+class OrderTimingsUpdated extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public $time_setting;
@@ -29,7 +29,7 @@ class NewTimingsNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Order Timings Notification',
+            subject: 'Order Timings Updated',
         );
     }
 
@@ -39,7 +39,7 @@ class NewTimingsNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.new-timings-notification',
+            view: 'emails.order-timings-updated',
         );
     }
 }

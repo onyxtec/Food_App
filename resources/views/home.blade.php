@@ -38,12 +38,12 @@
                             </div>
 
                             <div id="office-boy-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
-                                <a href="{{ route('order.timings') }}" class="text-decoration-none">
+                                <a href="{{ route('time-settings.index') }}" class="text-decoration-none">
                                     <div id="office-boy-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
                                         <i class="fa-solid fa-clock fa-2xl"></i>
                                     </div>
                                     <div class="card-body">
-                                      <h4>Order Time</h4>
+                                      <h4>Order Timings</h4>
                                     </div>
                                 </a>
                             </div>
