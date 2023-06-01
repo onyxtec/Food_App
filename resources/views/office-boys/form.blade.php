@@ -31,18 +31,21 @@
                               </span>
                         </div>
 
-                        <div class="form-group mb-3 {{ isset($user) ? 'd-none' : '' }}">
-                            <label for="password" class="form-label">Password</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" value="{{ old('password') }}" minlength="8" @if(isset($user)) disabled @else required @endif>
-                                <span class="input-group-text eye-icon"><i class="fa fa-eye"></i></span>
+                        @if(!isset($user))
+                            <div class="form-group mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" value="{{ old('password') }}" minlength="8" required>
+                                    <span class="input-group-text eye-icon"><i class="fa fa-eye"></i></span>
+                                </div>
+                                    <span class="text-danger">
+                                    @error('password')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
                             </div>
-                                <span class="text-danger">
-                                @error('password')
-                                    {{ $message }}
-                                @enderror
-                            </span>
-                        </div>
+                        @endif
+
                         <button type="submit" class="btn btn-primary btn-lg">{{ isset($user) ? "Update" : "Create" }}</button>
                         <a class="btn btn-danger btn-lg" href="{{ url()->previous() }}" role="button">Cancel</a>
                     </form>
@@ -53,24 +56,25 @@
 </div>
 @endsection
 
-@section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('.eye-icon').on('click', function(e) {
-                e.stopPropagation();
-                var input = $(this).prev('input');
-                var type = input.attr('type');
-                if (type === 'password') {
-                    input.attr('type', 'text');
-                    $(this).html('<i class="fa fa-eye-slash"></i>');
-                } else {
-                    input.attr('type', 'password');
-                    $(this).html('<i class="fa fa-eye"></i>');
-                }
+@if(!isset($user))
+    @section('scripts')
+        <script>
+            $(document).ready(function() {
+                $('.eye-icon').on('click', function(e) {
+                    e.stopPropagation();
+                    var input = $(this).prev('input');
+                    var type = input.attr('type');
+                    if (type === 'password') {
+                        input.attr('type', 'text');
+                        $(this).html('<i class="fa fa-eye-slash"></i>');
+                    } else {
+                        input.attr('type', 'password');
+                        $(this).html('<i class="fa fa-eye"></i>');
+                    }
+                });
             });
-        });
-    </script>
-
-@endsection
+        </script>
+    @endsection
+@endif
 
 

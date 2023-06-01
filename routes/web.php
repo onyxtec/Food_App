@@ -3,6 +3,7 @@
 use App\Http\Controllers\OfficeBoyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,8 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/temp-delete', [ProductController::class, 'tempDelete'])->name('temp.product.delete');
 
         Route::resource('office-boys', OfficeBoyController::class)->except('show');
+
+        Route::get('employees', [EmployeeController::class, 'index'])->name('employees.index');
+        Route::put('employees/{id}/balance', [EmployeeController::class, 'updateBalance'])->name('employees.balance.update');
     });
 });

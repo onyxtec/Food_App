@@ -77,7 +77,7 @@ class OfficeBoyController extends Controller
             $user->email = $request->email;
             $user->save();
 
-            return redirect()->route('office-boys.index')->with('success', 'OfficeBoy updated successfully.');
+            return redirect()->route('office-boys.index')->with('success', 'Office Boy updated successfully.');
         }
 
         return redirect()->route('office-boys.index')->with('error', 'Office Boy not found!');
