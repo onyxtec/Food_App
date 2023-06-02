@@ -4,6 +4,8 @@ use App\Http\Controllers\OfficeBoyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TimeSettingController;
+use App\Http\Controllers\EmployeeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('time-settings', [TimeSettingController::class, 'index'])->name('time-settings.index');
         Route::put('time-settings', [TimeSettingController::class, 'update'])->name('time-settings.update');
+
+        Route::get('employees', [EmployeeController::class, 'index'])->name('employees.index');
+        Route::put('employees/{id}/balance', [EmployeeController::class, 'updateBalance'])->name('employees.balance.update');
 
     });
 });
