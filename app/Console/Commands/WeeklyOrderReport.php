@@ -2,7 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\OrderReport;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class WeeklyOrderReport extends Command
 {
@@ -37,18 +41,20 @@ class WeeklyOrderReport extends Command
      */
     public function handle()
     {
-        $user  = auth()->user();
-       if($user){
-            $orders = $user->orders;
-
-            if ($orders->isEmpty()) {
-                $this->info('No orders found for the user.');
-                return;
+        // $users = User::with('orders.products')->get();
+        $employees = User::role('Employee')->get();
+        if($employees){
+            foreach ($employees as $employee){
+                $orders = $employee->orders;
+                if($orders && $employee->email === 'ali@onyxtec.co'){
+                    Mail::to($employee->email)->send(new OrderReport($orders));
+                    $this->info('Command completed successfully');
+                }
             }
 
-            $cart_items = $orders->products;
-
         }
+        $this->info('Command not completed');
+
 
     }
 }
