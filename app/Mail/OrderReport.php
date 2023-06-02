@@ -9,16 +9,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WeeklyOrderReport extends Mailable
+class OrderReport extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
+    private $orders;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($orders)
     {
-        //
+        $this->orders = $orders;
     }
 
     /**
@@ -31,15 +32,26 @@ class WeeklyOrderReport extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
+    // /**
+    //  * Get the message content definition.
+    //  */
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.weekly-order-report',
         );
     }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    // public function build()
+    // {
+    //     return $this->subject('Hello')->view('emails.weekly-order-report');
+
+    // }
 
     /**
      * Get the attachments for the message.
