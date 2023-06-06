@@ -29,18 +29,23 @@ class OffDayController extends Controller
 
         $off_days = new OffDay;
 
-        if($off_days){
+        if($off_days) {
 
-            if($request->pick_range){
+            if($request->pick_range) {
                 $off_days->end_date = $request->end_date;
-            }else{
+            } else {
                 $off_days->end_date = $request->start_date;
             }
 
-            $off_days->start_date = $request->start_date;
-            $off_days->save();
+            $off_days = new OffDay();
 
-            return redirect()->back()->withInput()->with('success', 'Off day added successfully');
+            if($off_days) {
+                $off_days->start_date = $request->start_date;
+                $off_days->end_date = $request->end_date;
+                $off_days->save();
+
+                return redirect()->back()->withInput()->with('success', 'Off day added successfully');
+            }
         }
 
         return redirect()->back()->withInput()->with('error', 'Something went wrong');

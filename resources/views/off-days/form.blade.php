@@ -34,11 +34,19 @@
                         </div>
 
                         <div class="form-check mb-3">
+<<<<<<< HEAD
                             <input class="form-check-input largerCheckbox" name="pick_range" type="checkbox" value="" id="pick_range_checkbox">
                             <label class="form-check-label largerCheckbox">Pick Range</label>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-lg">Add off day</button>
+=======
+                            <input class="form-check-input largerCheckbox" type="checkbox" value="" id="pick_range_checkbox">
+                            <label class="form-check-label largerCheckbox">Pick Range</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg">Add Off Day</button>
+>>>>>>> temp
                         {{-- <button type="submit" class="btn btn-primary btn-lg">Update</button> --}}
                     </form>
                 </div>
@@ -56,18 +64,30 @@
         $(document).ready(function() {
             $('#pick_range_checkbox').change(function() {
                 if ($(this).is(':checked')) {
+<<<<<<< HEAD
+=======
+                    // $('#end_date_field').show();
+>>>>>>> temp
                     end_date_field.show();
                     end_date_input.prop('disabled', false);
                     $('#date_label').text('Start Date');
                     end_date_input.prop('required', true);
+<<<<<<< HEAD
                     $('#pick_range_checkbox').val('true');
                 } else {
+=======
+                } else {
+                    // $('#end_date_field').hide();
+>>>>>>> temp
                     end_date_field.hide();
                     end_date_input.prop('disabled', true);
                     $('#date_label').text('Choose Date');
                     end_date_input.prop('required', false);
+<<<<<<< HEAD
                     $('pick_range_checkbox').prop('value', false);
                     $('#pick_range_checkbox').val('false');
+=======
+>>>>>>> temp
                 }
             });
         });
