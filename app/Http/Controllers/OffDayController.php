@@ -24,13 +24,20 @@ class OffDayController extends Controller
     {
         $request->validate([
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_date' => $request->pick_range ? 'required|date|after:start_date' : 'nullable|date',
         ]);
 
         $off_days = new OffDay;
+
         if($off_days){
+
+            if($request->pick_range){
+                $off_days->end_date = $request->end_date;
+            }else{
+                $off_days->end_date = $request->start_date;
+            }
+
             $off_days->start_date = $request->start_date;
-            $off_days->end_date = $request->end_date;
             $off_days->save();
 
             return redirect()->back()->withInput()->with('success', 'Off day added successfully');
