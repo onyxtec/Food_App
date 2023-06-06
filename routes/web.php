@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OfficeBoyController;
+use App\Http\Controllers\OffDayController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -48,6 +49,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('employees', [EmployeeController::class, 'index'])->name('employees.index');
         Route::put('employees/{id}/balance', [EmployeeController::class, 'updateBalance'])->name('employees.balance.update');
+
+        Route::get('off-days', [OffDayController::class, 'index'])->name('off-days.index');
+        Route::post('off-days', [OffDayController::class, 'store'])->name('off-days.store');
+        Route::get('off-days/create', [OffDayController::class, 'create'])->name('off-days.create');
+        Route::delete('off-days/{id}', [OffDayController::class, 'destroy'])->name('off-days.destroy');
 
     });
 
