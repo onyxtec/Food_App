@@ -15,7 +15,6 @@ class CartController extends Controller
 
     public function add(Request $request, $id){
         $product = Product::find($id);
-
         if($product){
             $cart_item = \Cart::get($product->id);
 
@@ -85,16 +84,5 @@ class CartController extends Controller
         }
 
         return redirect()->back()->with('error', 'Product not found');
-    }
-
-    public function checkout(){
-        $cart_items = \Cart::getContent();
-        $total = \Cart::getTotal();
-
-        if(!$cart_items->isEmpty()){
-            return view('cart.checkout', compact('cart_items', 'total'));
-        }
-
-        return redirect()->back()->with('error', 'Your cart is empty');
     }
 }

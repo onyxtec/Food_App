@@ -13,7 +13,6 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderCreated
 {
-
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $order;
