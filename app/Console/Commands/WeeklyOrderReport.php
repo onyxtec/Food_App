@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-
 use App\Models\User;
 use App\Notifications\WeeklyOrderReportMail;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class WeeklyOrderReport extends Command
 {
@@ -28,12 +28,10 @@ class WeeklyOrderReport extends Command
      *
      * @return void
      */
-
-     public function __construct()
-     {
-       parent::__construct();
-     }
-
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Execute the console command.
@@ -41,12 +39,13 @@ class WeeklyOrderReport extends Command
     public function handle()
     {
         $employees = User::role('Employee')->get();
+
         if($employees){
             foreach ($employees as $employee){
+
                 $employee->notify(new WeeklyOrderReportMail($employee));
             }
-
         }
-        $this->info('weekly order report sent successfully');
+        Log::info('weekly order report sent successfully');
     }
 }

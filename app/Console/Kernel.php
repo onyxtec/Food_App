@@ -7,7 +7,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-
     /**
      * The Artisan commands provided by your application.
      *
@@ -17,7 +16,6 @@ class Kernel extends ConsoleKernel
      protected $commands = [
         Commands\WeeklyOrderReport::class,
     ];
-
 
     /**
      * Define the application's command schedule.
