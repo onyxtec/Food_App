@@ -75,9 +75,46 @@
                     <ul class="navbar-nav me-auto">
 
                     </ul>
-
+                    @role('Employee')
+                        <div class="dropdown dropend product-cart-dropdown-div">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i> <span id="cart-btn-badge-pill" class="badge badge-pill badge-danger">{{ Cart::getContent()->count() }}</span>
+                            </button>
+                            <div class= "dropdown-menu product-cart-dropdown-menu-div mt-4">
+                                <div class="row total-header-section">
+                                    <div class="col-lg-12 col-sm-12 col-12 total-section text-right">
+                                        <p>Total: <span class="text-info">{{ Cart::getSubTotal() }} Rs.</span></p>
+                                    </div>
+                                </div>
+                                @if(Cart::isEmpty())
+                                    <div class="row cart-empty-message">
+                                        <div class="col-lg-12 col-sm-12 col-12 text-center mt-1 alert alert-danger alert-dismissible fade show" role="alert">
+                                            <p>No products in the cart.</p>
+                                        </div>
+                                    </div>
+                                @else
+                                    @foreach(Cart::getContent() as $cart_item)
+                                        <div class="row cart-detail">
+                                            <div class="col-lg-4 col-sm-4 col-4 cart-detail-img">
+                                                <img src="{{ asset('storage/products') }}/{{ $cart_item->attributes->image }}" />
+                                            </div>
+                                            <div class="col-lg-8 col-sm-8 col-8 cart-detail-product">
+                                                <p>{{ $cart_item->name }}</p>
+                                                <span class="price text-info">Rs. {{ $cart_item->price }}</span> <span class="count"> Quantity:{{ $cart_item->quantity }}</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <div class="row mt-4">
+                                        <div class="col-lg-12 col-sm-12 col-12 text-center checkout">
+                                            <a href="{{ route('cart.index') }}" class="btn btn-primary btn-block">View Cart</a>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endrole
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav">
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -128,6 +165,7 @@
                             </li>
                         @endguest
                     </ul>
+
                 </div>
             </div>
         </nav>

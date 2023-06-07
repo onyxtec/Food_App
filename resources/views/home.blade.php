@@ -5,60 +5,63 @@
     @include('response')
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @role('Admin')
-                        <div class="d-flex flex-row">
-                            <div id="product-card-div" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
-                                <a href="{{ route('products.index') }}" class="text-decoration-none">
-                                    <div id="product-card-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
-                                      <i class="fa-solid fa-plus fa-2x"></i>
-                                    </div>
-                                    <div class="card-body">
-                                      <h4>Products</h4>
-                                    </div>
-                                </a>
+            @role('Admin')
+                <div class="d-flex flex-row">
+                    <div id="product-card-div" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
+                        <a href="{{ route('products.index') }}" class="text-decoration-none">
+                            <div id="product-card-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                            <i class="fa-solid fa-plus fa-2x"></i>
                             </div>
-
-                            <div id="office-boy-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
-                                <a href="{{ route('office-boys.index') }}" class="text-decoration-none">
-                                    <div id="office-boy-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
-                                        <i class="fa-solid fa-person fa-2xl"></i>
-                                    </div>
-                                    <div class="card-body">
-                                      <h4>Office Boy</h4>
-                                    </div>
-                                </a>
+                            <div class="card-body">
+                            <h4>Products</h4>
                             </div>
-                            <div id="office-boy-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
-                                <a href="{{ route('time-settings.index') }}" class="text-decoration-none">
-                                    <div id="office-boy-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
-                                        <i class="fa-solid fa-clock fa-2xl"></i>
-                                    </div>
-                                    <div class="card-body">
-                                      <h4>Order Timings</h4>
-
-                            <div id="top-up-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
-                                <a href="{{ route('employees.index') }}" class="text-decoration-none">
-                                    <div id="top-up-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
-                                        <i class="fa-regular fa-credit-card-front fa-2xl"></i>
-                                    </div>
-                                    <div class="card-body">
-                                      <h4>Employees</h4>
-
-                                    </div>
-                                </a>
+                        </a>
+                    </div>
+                    <div id="office-boy-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
+                        <a href="{{ route('office-boys.index') }}" class="text-decoration-none">
+                            <div id="office-boy-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                                <i class="fa-solid fa-person fa-2xl"></i>
                             </div>
-                        </div>
-                    @endrole
+                            <div class="card-body">
+                            <h4>Office Boy</h4>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            @endrole
+            @role('Employee')
+                @if ($products)
+                    <div class="row">
+                        @foreach ($products as $product)
+                            <div class="col-md-4">
+                                <div class="card mb-3 shadow p-3 rounded">
+                                    <a href="{{ route('products.show', $product->id) }}">
+                                        <div class="card-header">
+                                            @if ($product->images !== null)
+                                                <img src="{{ asset('storage/products/'.$product->images[0]->image) }}" class="card-img-top img-rounded emp-card" alt="Product Image">
+                                            @endif
+                                        </div>
+                                    </a>
+                                    <div class="card-body">
+                                        <div class="d-flex flex-row justify-content-between">
+                                            <h5 class="card-title">{{ $product->name }}</h5>
+                                            <h6 class="card-title">{{ $product->price." Rs" }}</h6>
+                                        </div>
+                                        <div class="d-flex flex-row justify-content-between">
+                                            <p class="card-text overflow-hidden text-truncate" style="max-height: em; max-width: 15em">{{ $product->description }}</p>
+                                            <a class="btn btn-primary" href="{{ route('cart.add', $product->id) }}" role="button">Add To Cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-center align-items-center" role="alert">
+                    <p class="text-center">No product is available</p>
+                    </div>
+                @endif
+            @endrole
         </div>
     </div>
 </div>

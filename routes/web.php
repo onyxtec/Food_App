@@ -3,6 +3,8 @@
 use App\Http\Controllers\OfficeBoyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TimeSettingController;
 use App\Http\Controllers\EmployeeController;
 
@@ -35,6 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['middleware' => ['role:Admin']], function () {
         Route::resource('products', ProductController::class)->except('show');
+
         Route::post('/temp-upload', [ProductController::class, 'tempUpload'])->name('temp.product.upload');
         Route::delete('/temp-delete', [ProductController::class, 'tempDelete'])->name('temp.product.delete');
 
@@ -46,5 +49,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('employees', [EmployeeController::class, 'index'])->name('employees.index');
         Route::put('employees/{id}/balance', [EmployeeController::class, 'updateBalance'])->name('employees.balance.update');
 
+    });
+
+    Route::group(['middleware' => ['role:Employee']], function () {
+        Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::get('/cart/{id}/add', [CartController::class, 'add'])->name('cart.add');
+        Route::post('/cart/{id}/remove', [CartController::class, 'remove'])->name('cart.remove');
+        Route::put('/cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
+
+        Route::get('order', [OrderController::class, 'store'])->name('order.store');
     });
 });

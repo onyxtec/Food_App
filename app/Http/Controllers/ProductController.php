@@ -8,6 +8,7 @@ use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Cart;
 
 class ProductController extends Controller
 {
@@ -181,5 +182,14 @@ class ProductController extends Controller
             Storage::deleteDirectory('public/products/tmp/'.$temporaryImage->folder);
             $temporaryImage->delete();
         }
+    }
+
+    public function show($id){
+        $product = Product::find($id);
+
+        if ($product) {
+            return view('products.show', compact('product'));
+        }
+        return redirect()->route('home')->with('error', 'Product not found');
     }
 }
