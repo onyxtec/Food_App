@@ -37,8 +37,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['middleware' => ['role:Admin']], function () {
         Route::resource('products', ProductController::class)->except('show');
+
         Route::post('/temp-upload', [ProductController::class, 'tempUpload'])->name('temp.product.upload');
         Route::delete('/temp-delete', [ProductController::class, 'tempDelete'])->name('temp.product.delete');
+
         Route::resource('office-boys', OfficeBoyController::class)->except('show');
 
         Route::get('time-settings', [TimeSettingController::class, 'index'])->name('time-settings.index');
@@ -50,13 +52,13 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['middleware' => ['role:Employee']], function () {
-        Route::get('/products/{id}/show', [ProductController::class, 'show'])->name('products.show');
-        Route::get('/cart', [CartController::class, 'index'])->name('view.to.cart');
-        Route::get('/cart/{id}/add', [CartController::class, 'add'])->name('add.to.cart');
+        Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::get('/cart/{id}/add', [CartController::class, 'add'])->name('cart.add');
         Route::post('/cart/{id}/remove', [CartController::class, 'remove'])->name('cart.remove');
         Route::put('/cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
-        Route::get('/cart/order', [OrderController::class, 'order'])->name('cart.order');
+
+        Route::get('order', [OrderController::class, 'store'])->name('order.store');
     });
-
-
 });

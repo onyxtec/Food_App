@@ -106,7 +106,7 @@
                                     @endforeach
                                     <div class="row mt-4">
                                         <div class="col-lg-12 col-sm-12 col-12 text-center checkout">
-                                            <a href="{{ route('view.to.cart') }}" class="btn btn-primary btn-block">View Cart</a>
+                                            <a href="{{ route('cart.index') }}" class="btn btn-primary btn-block">View Cart</a>
                                         </div>
                                     </div>
                                 @endif

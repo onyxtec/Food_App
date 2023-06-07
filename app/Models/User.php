@@ -57,9 +57,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Review::class);
     }
 
-    public function routeNotificationForSlack(Notification $notification): string
+    public function routeNotificationForSlack(Notification $notification)
     {
-        return 'https://hooks.slack.com/services/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';
+        return env('SLACK_WEBHOOK_URL');
     }
 
     public function balanceHistories(): HasMany

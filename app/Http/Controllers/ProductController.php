@@ -186,8 +186,9 @@ class ProductController extends Controller
 
     public function show($id){
         $product = Product::find($id);
+
         if ($product) {
-            return view('products.details', compact('product'));
+            return view('products.show', compact('product'));
         }
         return redirect()->route('home')->with('error', 'Product not found');
     }

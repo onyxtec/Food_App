@@ -8,13 +8,11 @@ use App\Models\Product;
 
 class OrderController extends Controller
 {
-    public function order(){
-
+    public function store(){
         $user_balance = auth()->user()->balance;
         $total_cost = \Cart::getTotal();
 
         if($user_balance >= $total_cost){
-
             $order = new Order();
             $order->status = 0;
             $order->user_id = auth()->user()->id;
@@ -31,7 +29,6 @@ class OrderController extends Controller
 
             auth()->user()->balance -= $total_cost;
             auth()->user()->save();
-
             OrderCreated::dispatch($order);
             \Cart::clear();
 

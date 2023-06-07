@@ -50,7 +50,7 @@
                                     <hr class="m-0 pt-2 mt-3">
                                 </div>
                                 <div class="col-lg-12 pt-2">
-                                    <form action="{{ route('add.to.cart', $product->id) }}" method="POST">
+                                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                         @csrf
                                         @method('GET')
                                         <div class="form-group mb-3 ">
