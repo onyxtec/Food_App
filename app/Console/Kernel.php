@@ -13,9 +13,11 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
+
      protected $commands = [
-        Commands\setWeekendOffDays::class,
+        Commands\WeeklyOrderReport::class,
     ];
+
 
     /**
      * The Artisan commands provided by your application.
