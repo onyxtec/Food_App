@@ -22,7 +22,7 @@ class CartController extends Controller
 
             if($cart_item){
 
-                if($request){
+                if($request->quantity){
 
                     $request->validate([
                         'quantity' => 'required|numeric|min:1',

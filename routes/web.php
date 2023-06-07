@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TimeSettingController;
+use App\Http\Controllers\EmployeeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +40,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/temp-upload', [ProductController::class, 'tempUpload'])->name('temp.product.upload');
         Route::delete('/temp-delete', [ProductController::class, 'tempDelete'])->name('temp.product.delete');
         Route::resource('office-boys', OfficeBoyController::class)->except('show');
+
+        Route::get('time-settings', [TimeSettingController::class, 'index'])->name('time-settings.index');
+        Route::put('time-settings', [TimeSettingController::class, 'update'])->name('time-settings.update');
+
+        Route::get('employees', [EmployeeController::class, 'index'])->name('employees.index');
+        Route::put('employees/{id}/balance', [EmployeeController::class, 'updateBalance'])->name('employees.balance.update');
+
     });
 
     Route::group(['middleware' => ['role:Employee']], function () {
