@@ -2,14 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\OrderReport;
-use App\Models\Order;
+
 use App\Models\User;
 use App\Notifications\WeeklyOrderReportMail;
-use App\Notifications\WeeklyOrderReportNotification;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class WeeklyOrderReport extends Command
 {
@@ -44,19 +40,13 @@ class WeeklyOrderReport extends Command
      */
     public function handle()
     {
-        DB::transaction(function () {
-            // $users = User::with('orders.products')->get();
-            $employees = User::role('Employee')->get();
-            if($employees){
-                foreach ($employees as $employee){
-                    // $orders = $employee->orders;
-                    if($employee->email === 'ali@onyxtec.co'){
-                        $employee->notify(new WeeklyOrderReportMail($employee));
-                    }
-                }
-
+        $employees = User::role('Employee')->get();
+        if($employees){
+            foreach ($employees as $employee){
+                $employee->notify(new WeeklyOrderReportMail($employee));
             }
-            $this->info('Command completed successfully');
-        });
+
+        }
+        $this->info('weekly order report sent successfully');
     }
 }
