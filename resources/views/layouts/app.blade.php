@@ -79,7 +79,13 @@
                                         <p>Total: <span class="text-info">{{ Cart::getSubTotal() }} Rs.</span></p>
                                     </div>
                                 </div>
-                                @if(Cart::getContent())
+                                @if(Cart::isEmpty())
+                                    <div class="row cart-empty-message">
+                                        <div class="col-lg-12 col-sm-12 col-12 text-center mt-1 alert alert-danger alert-dismissible fade show" role="alert">
+                                            <p>No products in the cart.</p>
+                                        </div>
+                                    </div>
+                                @else
                                     @foreach(Cart::getContent() as $cart_item)
                                         <div class="row cart-detail">
                                             <div class="col-lg-4 col-sm-4 col-4 cart-detail-img">
@@ -91,12 +97,12 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                @endif
-                                <div class="row mt-4">
-                                    <div class="col-lg-12 col-sm-12 col-12 text-center checkout">
-                                        <a href="{{ route('product.view.to.cart') }}" class="btn btn-primary btn-block" >View Cart</a>
+                                    <div class="row mt-4">
+                                        <div class="col-lg-12 col-sm-12 col-12 text-center checkout">
+                                            <a href="{{ route('view.to.cart') }}" class="btn btn-primary btn-block">View Cart</a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     @endrole

@@ -25,10 +25,6 @@ class HomeController extends Controller
     public function index()
     {
         $products = Product::with('images')->latest()->get();
-        if ($products->isEmpty()) {
-            $error = 'No product is available';
-            return view('home', compact('error'));
-        }
         return view('home', compact('products'));
     }
 }

@@ -3,6 +3,8 @@
 use App\Http\Controllers\OfficeBoyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,19 +36,17 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('products', ProductController::class)->except('show');
         Route::post('/temp-upload', [ProductController::class, 'tempUpload'])->name('temp.product.upload');
         Route::delete('/temp-delete', [ProductController::class, 'tempDelete'])->name('temp.product.delete');
-
         Route::resource('office-boys', OfficeBoyController::class)->except('show');
     });
 
-    Route::get('/product/{id}/details', [ProductController::class, 'productDetails'])->name('product.productDetails');
-
-
-    Route::get('/product/{id}/add-to-cart', [ProductController::class, 'addToCart'])->name('product.add.to.cart');
-    Route::get('/product/cart', [ProductController::class, 'cartList'])->name('product.view.to.cart');
-    Route::post('/product/{id}/cart/remove', [ProductController::class, 'removeCart'])->name('product.cart.remove');
-    Route::put('/product/{id}/cart/update', [ProductController::class, 'updateCart'])->name('product.cart.update');
-    Route::get('/product/{id}/add-to-cart/details', [ProductController::class, 'addToCartDetail'])->name('product.add.to.cart.detail');
-    Route::get('/product/cart/place-order', [ProductController::class, 'placeOrder'])->name('product.cart.placeOrder');
+    Route::group(['middleware' => ['role:Employee']], function () {
+        Route::get('/products/{id}/show', [ProductController::class, 'show'])->name('products.show');
+        Route::get('/cart', [CartController::class, 'index'])->name('view.to.cart');
+        Route::get('/cart/{id}/add', [CartController::class, 'add'])->name('add.to.cart');
+        Route::post('/cart/{id}/remove', [CartController::class, 'remove'])->name('cart.remove');
+        Route::put('/cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
+        Route::get('/cart/order', [OrderController::class, 'order'])->name('cart.order');
+    });
 
 
 });

@@ -16,14 +16,8 @@
 
 .product-cart-dropdown-div{
     float:right;
-    // padding-right: 30px;
-    // margin-left: 20px;
 }
-// .btn{
-//     border:0px;
-//     margin:10px 0px;
-//     box-shadow:none !important;
-// }
+
 .product-cart-dropdown-div .product-cart-dropdown-menu-div{
     padding:20px;
     top:30px !important;
@@ -49,7 +43,7 @@
     height:100%;
     padding-left:15px;
 }
-// ----------------------------------------------------------------
+
 .card-img-top{
     width: 100%;
     height: 200px;
@@ -135,4 +129,8 @@
 
 .btn .badge{
     background-color: rgb(227, 68, 68);
+}
+
+#total-price-div, #continue-btn-div{
+    text-align: right;
 }

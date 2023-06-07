@@ -26,7 +26,7 @@
                                 </td>
                                 <td>Rs. {{ $item->price }}</td>
                                 <td>
-                                    <form action="{{ route('product.cart.update', $item->id) }}" method="POST" id="updateForm{{ $item->id }}">
+                                    <form action="{{ route('cart.update', $item->id) }}" method="POST" id="updateForm{{ $item->id }}">
                                         @csrf
                                         @method('PUT')
                                         <input type="number" name="quantity" value="{{ $item->quantity }}" class="form-control text-center w-50" min="1" pattern="[0-9]*" inputmode="numeric" placeholder="Quantity" required/>
@@ -40,7 +40,7 @@
                                 <td>Rs. {{ $item->price*$item->quantity }}</td>
                                 <td>
                                     <div class="d-flex flex-row">
-                                        <form id="deleteForm{{ $item->id }}" action="{{ route('product.cart.remove', $item->id) }}" method="POST">
+                                        <form id="deleteForm{{ $item->id }}" action="{{ route('cart.remove', $item->id) }}" method="POST">
                                             @csrf
                                             @method('POST')
                                             <button id="remove-cart-item-button" type="submit" onclick="removeCartItem({{ $item->id }})" class="btn btn-outline-danger btn-lg"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -55,11 +55,11 @@
             </div>
             @if (!Cart::getContent()->isEmpty())
                 <div class="mr-5">
-                    <div colspan="6" style="text-align: right;" class="mb-3">
-                        <h4><strong>Total {{ $total }} Rs</strong></h4>
+                    <div colspan="6" id="total-price-div" class="mb-3">
+                        <h4><strong>Total {{ $cart_total }} Rs</strong></h4>
                     </div>
 
-                    <div colspan="6" style="text-align: right;">
+                    <div colspan="6" id="continue-btn-div">
                         <a href="{{ route('home') }}" class="btn btn-outline-primary btn-lg"> <i class="fa fa-arrow-left"></i> Continue</a>
                     </div>
 
@@ -81,11 +81,11 @@
             <hr>
             <div class="d-flex justify-content-between">
                 <h5>TOTAL</h5>
-                <h5>Rs. {{ $total }}</h5>
+                <h5>Rs. {{ $cart_total }}</h5>
             </div>
             <hr>
             <div class="text-center">
-                <a href="{{ route('product.cart.placeOrder') }}" class="btn btn-outline-primary w-50"><i class="a fa-money"></i>Place Order</a>
+                <a href="{{ route('cart.order') }}" class="btn btn-outline-primary w-50"><i class="a fa-money"></i>Place Order</a>
             </div>
         </div>
     </div>

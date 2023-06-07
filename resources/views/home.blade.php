@@ -30,31 +30,37 @@
                 </div>
             @endrole
             @role('Employee')
-                <div class="row">
-                    @foreach ($products as $product)
-                        <div class="col-md-4">
-                            <div class="card mb-3 shadow p-3 rounded">
-                                <a href="{{ route('product.productDetails', $product->id) }}">
-                                    <div class="card-header">
-                                        @if ($product->images !== null)
-                                            <img src="{{ asset('storage/products/'.$product->images[0]->image) }}" class="card-img-top img-rounded emp-card" alt="Product Image">
-                                        @endif
-                                    </div>
-                                </a>
-                                <div class="card-body">
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <h5 class="card-title">{{ $product->name }}</h5>
-                                        <h6 class="card-title">{{ $product->price." Rs" }}</h6>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <p class="card-text overflow-hidden text-truncate" style="max-height: em; max-width: 15em">{{ $product->description }}</p>
-                                        <a class="btn btn-primary" href="{{ route('product.add.to.cart', $product->id) }}" role="button">Add To Cart</a>
+                @if ($products)
+                    <div class="row">
+                        @foreach ($products as $product)
+                            <div class="col-md-4">
+                                <div class="card mb-3 shadow p-3 rounded">
+                                    <a href="{{ route('products.show', $product->id) }}">
+                                        <div class="card-header">
+                                            @if ($product->images !== null)
+                                                <img src="{{ asset('storage/products/'.$product->images[0]->image) }}" class="card-img-top img-rounded emp-card" alt="Product Image">
+                                            @endif
+                                        </div>
+                                    </a>
+                                    <div class="card-body">
+                                        <div class="d-flex flex-row justify-content-between">
+                                            <h5 class="card-title">{{ $product->name }}</h5>
+                                            <h6 class="card-title">{{ $product->price." Rs" }}</h6>
+                                        </div>
+                                        <div class="d-flex flex-row justify-content-between">
+                                            <p class="card-text overflow-hidden text-truncate" style="max-height: em; max-width: 15em">{{ $product->description }}</p>
+                                            <a class="btn btn-primary" href="{{ route('add.to.cart', $product->id) }}" role="button">Add To Cart</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-center align-items-center" role="alert">
+                    <p class="text-center">No product is available</p>
+                    </div>
+                @endif
             @endrole
         </div>
     </div>

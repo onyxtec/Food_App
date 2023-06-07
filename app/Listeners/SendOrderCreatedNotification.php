@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\OrderCreated;
-use App\Notifications\OrderCreatedMailNotification;
+use App\Notifications\OrderCreatedNotification;
 
 class SendOrderCreatedNotification
 {
@@ -22,6 +22,6 @@ class SendOrderCreatedNotification
     {
         $order = $event->order;
         $user = $order->user;
-        $user->notify(new OrderCreatedMailNotification($order));
+        $user->notify(new OrderCreatedNotification($order));
     }
 }
