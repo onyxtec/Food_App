@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notification;
 class WeeklyOrderReportMail extends Notification implements ShouldQueue
 {
     use Queueable;
+
     private $employee;
 
     /**
