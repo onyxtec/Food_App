@@ -8,7 +8,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
 
 class VerifyOrderCreationMiddleware
 {
@@ -23,8 +22,6 @@ class VerifyOrderCreationMiddleware
         $off_days = OffDay::all();
 
         foreach ($off_days as $off_day) {
-            // $start_date = Carbon::parse($off_day->start_date)->format('Y-m-d');
-            // $end_date = Carbon::parse($off_day->end_date)->format('Y-m-d');
             $start_date = Carbon::parse($off_day->start_date);
             $end_date = Carbon::parse($off_day->end_date);
 
