@@ -7,25 +7,12 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-
     /**
      * The Artisan commands provided by your application.
      *
      * @var array
      */
-
-     protected $commands = [
-        //
-    ];
-
-
-    /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
-
-     protected $commands = [
+    protected $commands = [
         Commands\WeeklyOrderReport::class,
     ];
 
@@ -43,7 +30,6 @@ class Kernel extends ConsoleKernel
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }
