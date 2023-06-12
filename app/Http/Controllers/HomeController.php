@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $orders = Order::all();
         $products = Product::with('images')->latest()->get();
-        return view('home', compact('products'));
+        return view('home', compact('products', 'orders'));
     }
 }

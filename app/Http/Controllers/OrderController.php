@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\OrderCreated;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Http\Request;
+use Config;
 
 class OrderController extends Controller
 {
@@ -36,6 +38,40 @@ class OrderController extends Controller
         }
 
         return redirect()->route('home')->with('error', 'Insufficient balance.');
+    }
+
+    public function update(Request $request){
+        $order = Order::find($request->order_id);
+
+        if($order){
+            $order->status = $request->order_status;
+            $order->save();
+            $statuses = Config::get('orderstatus.order_statuses');
+
+            if($statuses[$request->order_status] === 'canceled'){
+                $order->user->balance += $this->getTotal($order);
+                $order->user->save();
+            }
+
+            return $request->session()->flash('success', 'Order status updated successfully');
+        }
+
+        return $request->session()->flash('error', 'Order does not exist');
+    }
+
+    public function show($order_id){
+        $order = Order::with('products', 'user')->find($order_id);
+        return response()->json($order);
+    }
+
+    private function getTotal($order){
+        $total = 0;
+
+        foreach($order->products as $product){
+            $total += $product->pivot->quantity * $product->pivot->price;
+        }
+
+        return $total;
     }
 
 }
