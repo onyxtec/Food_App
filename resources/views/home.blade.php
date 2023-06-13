@@ -186,7 +186,6 @@
                     url: 'order/'+ order_id,
                     success: function(response) {
                         $('#order-details-table-modal').empty();
-                        console.log(response);
                         let total_price = 0;
 
                         response.products.forEach(function(product) {
