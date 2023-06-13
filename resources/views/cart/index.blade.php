@@ -85,7 +85,7 @@
             </div>
             <hr>
             <div class="text-center">
-                <a href="{{ route('order.store') }}" class="btn btn-outline-primary w-50"><i class="a fa-money"></i>Place Order</a>
+                <a href="{{ route('orders.store') }}" class="btn btn-outline-primary w-50"><i class="a fa-money"></i>Place Order</a>
             </div>
         </div>
     </div>
