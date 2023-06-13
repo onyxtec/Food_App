@@ -27,6 +27,16 @@
                             </div>
                         </a>
                     </div>
+                    <div id="add-off-day-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
+                        <a href="{{ route('off-days.index') }}" class="text-decoration-none">
+                            <div id="add-off-day-card-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                                <i class="fa fa-calendar fa-2xl" aria-hidden="true"></i>
+                            </div>
+                            <div class="card-body">
+                              <h4>Add Off Days</h4>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             @endrole
             @role('Employee')

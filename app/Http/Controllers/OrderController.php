@@ -10,6 +10,11 @@ use Config;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('check_off_time');
+    }
+
     public function store(){
         $user_balance = auth()->user()->balance;
         $total_cost = \Cart::getTotal();
