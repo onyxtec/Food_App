@@ -144,6 +144,14 @@
                                     </div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    @role('Employee')
+                                        <a
+                                            class="dropdown-item"
+                                            href="{{ route('order.history') }}"
+                                        >
+                                            Order History
+                                        </a>
+                                    @endrole
                                     <a
                                         class="dropdown-item"
                                         href="{{ route('profile.index') }}"

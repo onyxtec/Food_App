@@ -60,6 +60,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
 
         Route::get('order', [OrderController::class, 'store'])->name('order.store');
+
+        Route::get('order/history', [OrderController::class, 'history'])->name('order.history');
+        Route::get('order/{id}/details', [OrderController::class, 'orderDetails'])->name('order.details');
     });
 
     Route::group(['middleware' => ['role:Office Boy']], function () {

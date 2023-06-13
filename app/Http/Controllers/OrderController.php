@@ -59,6 +59,19 @@ class OrderController extends Controller
         return $request->session()->flash('error', 'Order does not exist');
     }
 
+    public function history(Request $request){
+        if($request->order_filter_date != null){
+            $request->validate([
+                'order_filter_date' => 'required|date',
+            ]);
+            $orders = auth()->user()->orders()->orderBy('created_at', 'desc')->whereDate('created_at', $request->order_filter_date)->get();
+        }else{
+            $orders = auth()->user()->orders()->orderBy('created_at', 'desc')->get();
+        }
+
+        return view('order-history.index', compact('orders'));
+    }
+
     public function show($order_id){
         $order = Order::with('products', 'user')->find($order_id);
         return response()->json($order);
@@ -73,5 +86,4 @@ class OrderController extends Controller
 
         return $total;
     }
-
 }
