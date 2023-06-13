@@ -61,4 +61,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('order', [OrderController::class, 'store'])->name('order.store');
     });
+
+    Route::group(['middleware' => ['role:Office Boy']], function () {
+        Route::post('order', [OrderController::class, 'update'])->name('order.update');
+        Route::get('order/{id}', [OrderController::class, 'show'])->name('order.show');
+    });
 });
