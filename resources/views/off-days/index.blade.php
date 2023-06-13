@@ -25,22 +25,25 @@
                             </thead>
                             <tbody>
                                 @foreach ($off_days as $off_day)
-                                <tr>
-                                    <td>{{ $off_day->id }}</td>
-                                    <td>{{ $off_day->start_date }}</td>
-                                    <td>{{ $off_day->end_date }}</td>
-                                    <td>
-                                        <div class="d-flex flex-row">
-                                            <form id="deleteForm{{ $off_day->id }}" action="{{ route('off-days.destroy', $off_day->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button id="delete-office-boy-button" type="submit" onclick="deleteOffDay({{ $off_day->id }})" class="btn btn-danger btn-lg">Delete</button>
-                                            </form>
-                                            {{-- <a class="btn btn-primary btn-lg" href="{{ route('office-boys.edit', $user->id) }}" role="button">Edit</a> --}}
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                    @php
+                                        $start_date = Carbon\Carbon::createFromFormat('Y-m-d', $off_day->start_date)->format('D, j F Y');
+                                        $end_date = Carbon\Carbon::createFromFormat('Y-m-d', $off_day->end_date)->format('D, j F Y');
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $off_day->id }}</td>
+                                        <td>{{ $start_date }}</td>
+                                        <td>{{ $end_date }}</td>
+                                        <td>
+                                            <div class="d-flex flex-row">
+                                                <form id="deleteForm{{ $off_day->id }}" action="{{ route('off-days.destroy', $off_day->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button id="delete-office-boy-button" type="submit" onclick="deleteOffDay({{ $off_day->id }})" class="btn btn-danger btn-lg">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

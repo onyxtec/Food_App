@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 
-class VerifyOrderCreationMiddleware
+class CheckOffTime
 {
     /**
      * Handle an incoming request.
@@ -19,16 +19,12 @@ class VerifyOrderCreationMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $current_date_time = Carbon::now();
-        $off_days = OffDay::all();
+        $off_days = OffDay::where('start_date', '<=', $current_date_time)
+        ->where('end_date', '>=', $current_date_time)
+        ->get();
 
-        foreach ($off_days as $off_day) {
-            $start_date = Carbon::parse($off_day->start_date);
-            $end_date = Carbon::parse($off_day->end_date);
-
-            if ($current_date_time->between($start_date, $end_date)) {
-
-                return redirect()->route('home')->with('error', 'Order creation is not allowed on off days.');
-            }
+        if ($off_days->count() > 0) {
+            return redirect()->route('home')->with('error', 'You cannot order during off days.');
         }
 
         $time_settings = TimeSetting::first();
@@ -38,7 +34,7 @@ class VerifyOrderCreationMiddleware
             $order_end_time = Carbon::parse($time_settings->order_end_time);
 
             if (!$current_date_time->between($order_start_time, $order_end_time)) {
-                return redirect()->route('home')->with('error', 'Order creation is not allowed during off hours.');
+                return redirect()->route('home')->with('error', 'You cannot order during off hours.');
             }
         }
 

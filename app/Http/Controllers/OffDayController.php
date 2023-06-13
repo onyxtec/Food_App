@@ -10,13 +10,6 @@ class OffDayController extends Controller
 {
     public function index(){
         $off_days = OffDay::all();
-
-        $off_days->map(function ($offDay) {
-            $offDay->start_date = Carbon::createFromFormat('Y-m-d', $offDay->start_date)->format('D, j F Y');
-            $offDay->end_date = Carbon::createFromFormat('Y-m-d', $offDay->end_date)->format('D, j F Y');
-            return $offDay;
-        });
-
         return view('off-days.index', compact('off_days'));
     }
 
