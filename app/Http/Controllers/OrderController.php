@@ -69,7 +69,7 @@ class OrderController extends Controller
             $orders = auth()->user()->orders()->orderBy('created_at', 'desc')->get();
         }
 
-        return view('order-history.index', compact('orders'));
+        return view('orders.index', compact('orders'));
     }
 
     public function show($order_id){

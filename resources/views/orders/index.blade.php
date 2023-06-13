@@ -11,7 +11,7 @@
                     @role('Employee')
                         <div class="shadow p-4 mx-3">
                             <div class="mb-5">
-                                <form action="{{ route('order.history') }}", method="GET">
+                                <form action="{{ route('orders.history') }}", method="GET">
                                     @method('GET')
                                     @csrf
                                     <div class="row">
@@ -126,7 +126,7 @@
                 let order_id = $(this).val();
                 $.ajax({
                     type: 'GET',
-                    url: order_id+'/details',
+                    url: 'order/'+ order_id,
                     success: function(response) {
                         $('#order-details-table-modal').empty();
                         let total_price = 0;

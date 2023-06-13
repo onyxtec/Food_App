@@ -59,9 +59,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/cart/{id}/remove', [CartController::class, 'remove'])->name('cart.remove');
         Route::put('/cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
 
-        Route::get('orders', [OrderController::class, 'store'])->name('order.store');
-        Route::get('orders/history', [OrderController::class, 'history'])->name('order.history');
-        Route::get('orders/{id}/details', [OrderController::class, 'orderDetails'])->name('order.details');
+        Route::post('orders', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('orders/history', [OrderController::class, 'history'])->name('orders.history');
     });
 
     Route::group(['middleware' => ['role:Office Boy']], function () {

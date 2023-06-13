@@ -147,7 +147,7 @@
                                     @role('Employee')
                                         <a
                                             class="dropdown-item"
-                                            href="{{ route('order.history') }}"
+                                            href="{{ route('orders.history') }}"
                                         >
                                             Order History
                                         </a>
