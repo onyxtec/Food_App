@@ -21,7 +21,7 @@ use App\Http\Controllers\EmployeeController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login'));
 });
 
 Auth::routes(['verify' => true]);
@@ -59,10 +59,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/cart/{id}/remove', [CartController::class, 'remove'])->name('cart.remove');
         Route::put('/cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
 
-        Route::get('order', [OrderController::class, 'store'])->name('order.store');
-
-        Route::get('order/history', [OrderController::class, 'history'])->name('order.history');
-        Route::get('order/{id}/details', [OrderController::class, 'orderDetails'])->name('order.details');
+        Route::get('orders', [OrderController::class, 'store'])->name('order.store');
+        Route::get('orders/history', [OrderController::class, 'history'])->name('order.history');
+        Route::get('orders/{id}/details', [OrderController::class, 'orderDetails'])->name('order.details');
     });
 
     Route::group(['middleware' => ['role:Office Boy']], function () {

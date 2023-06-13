@@ -10,9 +10,6 @@
                 <div class="card-body">
                     @role('Employee')
                         <div class="shadow p-4 mx-3">
-                            <div class="mb-3">
-                                <h4>Filter your order history</h4>
-                            </div>
                             <div class="mb-5">
                                 <form action="{{ route('order.history') }}", method="GET">
                                     @method('GET')
@@ -63,7 +60,7 @@
                                                     <td>
                                                         <div class="d-flex flex-row">
                                                             <button type="button" class="btn btn-outline-primary show-details-btn" value="{{ $order->id }}">
-                                                                <i class="fa fa-eye" aria-hidden="true"></i> view
+                                                                <i class="fa fa-eye" aria-hidden="true"></i> show
                                                             </button>
                                                         </div>
                                                     </td>
