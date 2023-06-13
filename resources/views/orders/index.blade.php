@@ -60,7 +60,7 @@
                                                     <td>
                                                         <div class="d-flex flex-row">
                                                             <button type="button" class="btn btn-outline-primary show-details-btn" value="{{ $order->id }}">
-                                                                <i class="fa fa-eye" aria-hidden="true"></i> show
+                                                                <i class="fa fa-eye" aria-hidden="true"></i> View
                                                             </button>
                                                         </div>
                                                     </td>
