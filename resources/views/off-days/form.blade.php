@@ -5,9 +5,8 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Add Off Days') }}</div>
+                <div class="card-header">{{ __('Off Days') }}</div>
                 <div class="card-body">
-
                     <form  action="{{ route('off-days.store') }}" method="POST">
                         @csrf
                         @method('POST')
@@ -35,17 +34,6 @@
                             <input class="form-check-input largerCheckbox" name="pick_range" type="checkbox" value="" id="pick_range_checkbox">
                             <label class="form-check-label largerCheckbox">Pick Range</label>
                         </div>
-
-                        <button type="submit" class="btn btn-primary btn-lg">Add off day</button>
-                            <input class="form-check-input largerCheckbox" type="checkbox" value="" id="pick_range_checkbox">
-                            <label class="form-check-label largerCheckbox">Pick Range</label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-lg">Add Off Day</button>
-                            <input class="form-check-input largerCheckbox" name="pick_range" type="checkbox" value="" id="pick_range_checkbox">
-                            <label class="form-check-label largerCheckbox">Pick Range</label>
-                        </div>
-
                         <button type="submit" class="btn btn-primary btn-lg">Add off day</button>
                     </form>
                 </div>
@@ -73,9 +61,6 @@
                     end_date_input.prop('disabled', true);
                     $('#date_label').text('Choose Date');
                     end_date_input.prop('required', false);
-                    $('pick_range_checkbox').prop('value', false);
-                    $('#pick_range_checkbox').val('false');
-                    $('pick_range_checkbox').prop('value', false);
                     $('#pick_range_checkbox').val('false');
                 }
             });

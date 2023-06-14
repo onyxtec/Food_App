@@ -15,8 +15,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">Id</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Product Price</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Images</th>
                                 <th scope="col">Actions</th>

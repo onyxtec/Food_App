@@ -6,36 +6,76 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             @role('Admin')
-                <div class="d-flex flex-row">
-                    <div id="product-card-div" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
-                        <a href="{{ route('products.index') }}" class="text-decoration-none">
-                            <div id="product-card-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
-                            <i class="fa-solid fa-plus fa-2x"></i>
-                            </div>
-                            <div class="card-body">
-                            <h4>Products</h4>
-                            </div>
-                        </a>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div id="product-card-div" class="card border-primary shadow p-3 mt-3 rounded">
+                            <a href="{{ route('products.index') }}" class="text-decoration-none">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <div id="product-card-icon-div" class=" shadow d-flex justify-content-center align-items-center rounded-circle bg-primary text-white mt-3">
+                                        <i class="fa-solid fa-plus fa-2x"></i>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h4>Products</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <div id="office-boy-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
-                        <a href="{{ route('office-boys.index') }}" class="text-decoration-none">
-                            <div id="office-boy-icon-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
-                                <i class="fa-solid fa-person fa-2xl"></i>
-                            </div>
-                            <div class="card-body">
-                            <h4>Office Boy</h4>
-                            </div>
-                        </a>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div id="office-boy-card-div" class="card border-primary shadow p-3 mt-3 rounded">
+                            <a href="{{ route('office-boys.index') }}" class="text-decoration-none">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <div id="office-boy-icon-div" class="shadow rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                                        <i class="fa-solid fa-person fa-2xl"></i>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h4>Office Boy</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <div id="add-off-day-card" class="border-primary card d-flex justify-content-center align-items-center col-md-4 shadow p-3 rounded">
-                        <a href="{{ route('off-days.index') }}" class="text-decoration-none">
-                            <div id="add-off-day-card-div" class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
-                                <i class="fa fa-calendar fa-2xl" aria-hidden="true"></i>
-                            </div>
-                            <div class="card-body">
-                              <h4>Add Off Days</h4>
-                            </div>
-                        </a>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div id="add-off-day-card-div" class="card border-primary shadow p-3 mt-3 rounded">
+                            <a href="{{ route('off-days.index') }}" class="text-decoration-none">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <div id="add-off-day-icon-div" class="shadow rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                                        <i class="fa fa-calendar fa-2xl" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h4>Off Days</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div id="time-settings-card-div" class="border-primary card shadow p-3 mt-3 rounded">
+                            <a href="{{ route('time-settings.index') }}" class="text-decoration-none">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <div id="time-settings-icon-div" class="shadow rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                                        <i class="fa-solid fa-clock fa-2xl"></i>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h4>Times Settings</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div id="edit-balance-card-div" class="border-primary card shadow p-3 mt-3 rounded">
+                            <a href="{{ route('employees.index') }}" class="text-decoration-none">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <div id="edit-balance-icon-div" class="shadow rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mt-3">
+                                        <i class="fas fa-users fa-2xl"></i>
+                                    </div>
+                                    <div class="mt-3">
+                                        <h4>Employees</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             @endrole
@@ -43,7 +83,7 @@
                 @if ($products)
                     <div class="row">
                         @foreach ($products as $product)
-                            <div class="col-md-4">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <div class="card mb-3 shadow p-3 rounded">
                                     <a href="{{ route('products.show', $product->id) }}">
                                         <div class="card-header">
@@ -58,7 +98,7 @@
                                             <h6 class="card-title">{{ $product->price." Rs" }}</h6>
                                         </div>
                                         <div class="d-flex flex-row justify-content-between">
-                                            <p class="card-text overflow-hidden text-truncate" style="max-height: em; max-width: 15em">{{ $product->description }}</p>
+                                            <p class="card-text overflow-hidden text-truncate col-6 col-md-2 col-lg-5" id="product-desc-para">{{ $product->description }}</p>
                                             <a class="btn btn-primary" href="{{ route('cart.add', $product->id) }}" role="button">Add To Cart</a>
                                         </div>
                                     </div>
@@ -114,7 +154,7 @@
                                         <td>
                                             <div class="d-flex flex-row">
                                                 <button type="button" class="btn btn-outline-primary show-details-btn" value="{{ $order->id }}">
-                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    <i class="fa fa-eye" aria-hidden="true"></i> View
                                                 </button>
                                             </div>
                                         </td>
@@ -193,7 +233,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: 'order/'+ order_id,
+                    url: '/orders/'+order_id,
                     success: function(response) {
                         $('#order-details-table-modal').empty();
                         let total_price = 0;
@@ -233,8 +273,8 @@
                     localStorage.setItem('orderStatusDisabled_' + order_id, true);
 
                     $.ajax({
-                        type: "POST",
-                        url: '{{ route("order.update") }}',
+                        type: "PUT",
+                        url: '{{ route("orders.update") }}',
                         data:{
                             order_id: order_id,
                             order_status: order_status,

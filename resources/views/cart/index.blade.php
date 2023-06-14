@@ -85,7 +85,12 @@
             </div>
             <hr>
             <div class="text-center">
-                <a href="{{ route('orders.store') }}" class="btn btn-outline-primary w-50"><i class="a fa-money"></i>Place Order</a>
+                {{-- <a href="{{ route('orders.store') }}" class="btn btn-outline-primary w-50"><i class="a fa-money"></i>Place Order</a> --}}
+                <form action="{{ route('orders.store') }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <button type="submit" class="btn btn-outline-primary w-50">Place Order</button>
+                </form>
             </div>
         </div>
     </div>
@@ -99,7 +104,7 @@
     }
 
     function removeCartItem(productId) {
-        event.preventDefault(); //to suspend form submission
+        event.preventDefault();
         Swal.fire({
             title: 'Are you sure?',
             text: 'This action cannot be undone.',

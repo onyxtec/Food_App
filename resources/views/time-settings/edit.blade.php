@@ -7,7 +7,6 @@
             <div class="card">
                 <div class="card-header">{{ __('Time Settings') }}</div>
                 <div class="card-body">
-
                     <form  action="{{ route('time-settings.update') }}" method="POST">
                         @csrf
                         @method('PUT')

@@ -126,7 +126,7 @@
                 let order_id = $(this).val();
                 $.ajax({
                     type: 'GET',
-                    url: 'order/'+ order_id,
+                    url: '/orders/'+order_id,
                     success: function(response) {
                         $('#order-details-table-modal').empty();
                         let total_price = 0;
