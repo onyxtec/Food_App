@@ -97,9 +97,8 @@
                                             <h5 class="card-title">{{ $product->name }}</h5>
                                             <h6 class="card-title">{{ $product->price." Rs" }}</h6>
                                         </div>
-                                        <div class="d-flex flex-row justify-content-between">
-                                            <p class="card-text overflow-hidden text-truncate col-6 col-md-2 col-lg-5" id="product-desc-para">{{ $product->description }}</p>
-                                            <a class="btn btn-primary" href="{{ route('cart.add', $product->id) }}" role="button">Add To Cart</a>
+                                        <div class="text-center mt-3">
+                                            <a class="btn btn-primary w-75" href="{{ route('cart.add', $product->id) }}" role="button">Add To Cart</a>
                                         </div>
                                     </div>
                                 </div>
