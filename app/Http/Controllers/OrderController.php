@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('check_off_time');
+        // $this->middleware('check_off_time');
     }
 
     public function store(){

@@ -70,7 +70,10 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['middleware' => ['role:Office Boy']], function () {
-        Route::post('order', [OrderController::class, 'update'])->name('order.update');
-        Route::get('order/{id}', [OrderController::class, 'show'])->name('order.show');
+        Route::put('orders', [OrderController::class, 'update'])->name('orders.update');
+    });
+
+    Route::group(['middleware' => ['role:Office Boy|Employee']], function () {
+        Route::get('orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     });
 });

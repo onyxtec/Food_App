@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class TimeSettingController extends Controller
 {
@@ -17,7 +19,6 @@ class TimeSettingController extends Controller
     }
 
     public function update(Request $request){
-
         $validator = Validator::make($request->all(), [
             'start_time' => 'required|date_format:H:i:s',
             'end_time' => 'required|date_format:H:i:s|after:start_time',
@@ -42,7 +43,11 @@ class TimeSettingController extends Controller
 
             $employees = User::role('Employee')->get();
             foreach ($employees as $employee) {
-                Mail::to($employee->email)->send(new OrderTimingsUpdated($time_setting));
+                try {
+                    Mail::to($employee->email)->send(new OrderTimingsUpdated($time_setting));
+                } catch (Exception $e) {
+                    Log::info($e->getMessage());
+                }
             }
             return redirect()->back()->withInput()->with('success', 'Time has been updated successfully');
         }

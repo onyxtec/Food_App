@@ -9,7 +9,7 @@
                     Product Details
                 </div>
                 <div class="row m-0">
-                    <div class="col-lg-4 p-3 shadow left-side-product-box">
+                    <div class="col-lg-4 p-3 left-side-product-box">
                         <div id="carouselExampleIndicators" class="carousel slide shadow" data-bs-ride="carousel">
                             <div class="carousel-indicators">
                                 @foreach ($product->images as $index => $image)
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <div class="p-3 m-0 right-side-pro-detail border">
+                        <div class="p-3 m-0 right-side-pro-detail border shadow">
                             <div class="row">
                                 <div class="col-lg-12 mb-4">
                                     <h3 class="m-0 p-0">{{ $product->name }}</h3>

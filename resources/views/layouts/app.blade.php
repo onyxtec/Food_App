@@ -27,7 +27,6 @@
     {{-- jQuery timepicker --}}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 
-
     {{-- sweetalert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.js"></script>
     {{--jquery  --}}
@@ -76,7 +75,7 @@
 
                     </ul>
                     @role('Employee')
-                        <div class="dropdown dropend product-cart-dropdown-div">
+                        <div class="dropdown dropend product-cart-dropdown-div mt-md-3 mt-sm-3 mt-lg-0">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i> <span id="cart-btn-badge-pill" class="badge badge-pill badge-danger">{{ Cart::getContent()->count() }}</span>
                             </button>
@@ -130,7 +129,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a href="#" id="navbarDropdown" class="nav-link" role="button" data-bs-toggle="dropdown" aria-haspopup="true" ria-expanded="false" v-pre>
-                                    <div class="d-flex justify-content-between">
+                                    <div class="d-flex justify-content-between-lg">
                                         <div>
                                             @php
                                                 $src = auth()->user()->image === null ? Vite::asset('resources/images/default_image.jpg') : auth()->user()->image;
