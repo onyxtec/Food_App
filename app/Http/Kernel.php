@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'remove_images' => \App\Http\Middleware\RemoveTemporaryImagesMiddleware::class,
         'check_off_time' => \App\Http\Middleware\CheckOffTime::class,
+        'employee_verified' => \App\Http\Middleware\EmployeeVerifiedMiddleware::class,
     ];
 }
