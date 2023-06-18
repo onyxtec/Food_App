@@ -112,11 +112,41 @@
                 @endif
             @endrole
             @role('Office Boy')
+                <div class="shadow p-4 mx-3">
+                    <div class="mb-5">
+                        <form action="{{ route('home') }}", method="GET">
+                            @method('GET')
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <input type="date" name="order_filter_date" id="order_filter_date" value="{{ old('order_filter_date', date('Y-m-d'))}}" class="form-control shadow" required>
+                                </div>
+                                @error('order_filter_date')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                                <div class="col-md-3">
+                                    <select class="form-select shadow" name="order_filter_status">
+                                        <option value="0" selected hidden>select all</option>
+                                        @foreach (config('orderstatus.order_statuses') as $key => $status)
+                                            <option value="{{ $key + 1 }}">
+                                                {{ $status }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <button type="submit" class="btn btn-outline-primary shadow p-2" data-toggle="tooltip" data-placement="top" title="Apply filter"><i class="fa-solid fa-filter"></i> Apply</button>
+                                    <button type="button" class="btn btn-dark shadow p-2" data-toggle="tooltip" data-placement="top" title="Clear all fields" onclick="clearInputFields()"><i class="fa-solid fa-eraser"></i> Clear</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 @if ($orders)
-                    <div class="mx-3 my-3 table-responsive">
+                    <div class="mx-3 my-3 table-responsive shadow p-4">
                         <table id="orders-table" class="table table-striped table-hover">
                             <caption>List of Orders</caption>
-                            <thead>
+                            <thead class="table-primary">
                                 <tr>
                                     <th scope="col">Order ID</th>
                                     <th scope="col">Date</th>
@@ -300,5 +330,9 @@
                 }
             });
         });
+
+        function clearInputFields() {
+            document.getElementById('order_filter_date').value = '';
+        }
     </script>
 @endsection
