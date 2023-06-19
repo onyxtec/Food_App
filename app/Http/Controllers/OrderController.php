@@ -67,7 +67,6 @@ class OrderController extends Controller
 
     public function history(Request $request){
         $date = Carbon::now();
-        $status = $request->order_filter_status;
 
         if ($request->order_filter_date != null) {
             $request->validate([
@@ -78,8 +77,8 @@ class OrderController extends Controller
 
         $orders_query = auth()->user()->orders()->orderBy('created_at', 'desc');
 
-        if ($status !== null && $status != 0) {
-            $orders_query->where('status', $status-1);
+        if ($request->order_filter_status !== null && $request->order_filter_status != 0) {
+            $orders_query->where('status', $request->order_filter_status-1);
         }
 
         $orders = $orders_query->whereDate('created_at', $date)->get();

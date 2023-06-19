@@ -65,8 +65,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/cart/{id}/remove', [CartController::class, 'remove'])->name('cart.remove');
         Route::put('/cart/{id}/update', [CartController::class, 'update'])->name('cart.update');
 
-        Route::post('orders', [OrderController::class, 'store'])->name('orders.store');
-        // Route::post('orders', [OrderController::class, 'store'])->middleware('check_off_time')->name('orders.store');
+        Route::post('orders', [OrderController::class, 'store'])->middleware('check_off_time')->name('orders.store');
         Route::get('orders/history', [OrderController::class, 'history'])->name('orders.history');
     });
 

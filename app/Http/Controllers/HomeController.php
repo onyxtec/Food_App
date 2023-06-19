@@ -26,25 +26,23 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $current_date = Carbon::now();
-        $status = $request->order_filter_status;
+        $date = Carbon::now();
         $products = Product::with('images')->latest()->get();
 
         if ($request->order_filter_date != null) {
             $request->validate([
                 'order_filter_date' => 'required|date',
             ]);
-            $current_date = $request->order_filter_date;
+            $date = $request->order_filter_date;
         }
 
         $orders_query = Order::orderBy('created_at', 'desc');
 
-        if ($status !== null && $status != 0) {
-            $orders_query->where('status', $status-1);
+        if ($request->order_filter_status !== null && $request->order_filter_status != 0) {
+            $orders_query->where('status', $request->order_filter_status-1);
         }
 
-        $orders = $orders_query->whereDate('created_at', $current_date)->get();
-        // $orders = Order::whereDate('created_at', $current_date)->orderBy('created_at', 'desc')->get();
+        $orders = $orders_query->whereDate('created_at', $date)->get();
 
         return view('home', compact('products', 'orders'));
     }
