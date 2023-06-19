@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
-    Route::group(['middleware' => ['role:Employee']], function () {
+    Route::group(['middleware' => ['role:Employee', 'employee_verified']], function () {
         Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
