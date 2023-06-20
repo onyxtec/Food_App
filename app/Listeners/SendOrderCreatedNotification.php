@@ -4,6 +4,8 @@ namespace App\Listeners;
 
 use App\Events\OrderCreated;
 use App\Notifications\OrderCreatedNotification;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class SendOrderCreatedNotification
 {
@@ -22,6 +24,10 @@ class SendOrderCreatedNotification
     {
         $order = $event->order;
         $user = $order->user;
-        $user->notify(new OrderCreatedNotification($order));
+        try {
+            $user->notify(new OrderCreatedNotification($order));
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+        }
     }
 }

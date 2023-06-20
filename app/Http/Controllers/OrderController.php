@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\OrderCreated;
 use App\Models\Order;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Config;
 
@@ -65,14 +66,22 @@ class OrderController extends Controller
     }
 
     public function history(Request $request){
-        if($request->order_filter_date != null){
+        $date = Carbon::now();
+
+        if ($request->order_filter_date != null) {
             $request->validate([
                 'order_filter_date' => 'required|date',
             ]);
-            $orders = auth()->user()->orders()->orderBy('created_at', 'desc')->whereDate('created_at', $request->order_filter_date)->get();
-        }else{
-            $orders = auth()->user()->orders()->orderBy('created_at', 'desc')->get();
+            $date = $request->order_filter_date;
         }
+
+        $orders_query = auth()->user()->orders()->orderBy('created_at', 'desc');
+
+        if ($request->order_filter_status !== null) {
+            $orders_query->where('status', $request->order_filter_status);
+        }
+
+        $orders = $orders_query->whereDate('created_at', $date)->get();
 
         return view('orders.index', compact('orders'));
     }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -22,10 +24,26 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::all();
+        $date = Carbon::now();
         $products = Product::with('images')->latest()->get();
+
+        if ($request->order_filter_date != null) {
+            $request->validate([
+                'order_filter_date' => 'required|date',
+            ]);
+            $date = $request->order_filter_date;
+        }
+
+        $orders_query = Order::orderBy('created_at', 'desc');
+
+        if ($request->order_filter_status !== null) {
+            $orders_query->where('status', $request->order_filter_status);
+        }
+
+        $orders = $orders_query->whereDate('created_at', $date)->get();
+
         return view('home', compact('products', 'orders'));
     }
 }
