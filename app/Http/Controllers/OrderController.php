@@ -77,8 +77,8 @@ class OrderController extends Controller
 
         $orders_query = auth()->user()->orders()->orderBy('created_at', 'desc');
 
-        if ($request->order_filter_status !== null && $request->order_filter_status != 0) {
-            $orders_query->where('status', $request->order_filter_status-1);
+        if ($request->order_filter_status !== null) {
+            $orders_query->where('status', $request->order_filter_status);
         }
 
         $orders = $orders_query->whereDate('created_at', $date)->get();

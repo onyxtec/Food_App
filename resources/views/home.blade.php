@@ -126,13 +126,14 @@
                                 @enderror
                                 <div class="col-md-3">
                                     <select class="form-select shadow" name="order_filter_status">
-                                        <option value="0" selected hidden>select all</option>
+                                        <option value="" selected hidden>select all</option>
                                         @foreach (config('orderstatus.order_statuses') as $key => $status)
-                                            <option value="{{ $key + 1 }}">
+                                            <option value="{{ $key }}">
                                                 {{ $status }}
                                             </option>
                                         @endforeach
                                     </select>
+
                                 </div>
                                 <div class="col-md-5">
                                     <button type="submit" class="btn btn-outline-primary shadow p-2" data-toggle="tooltip" data-placement="top" title="Apply filter"><i class="fa-solid fa-filter"></i> Apply</button>
